@@ -4,12 +4,12 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'orion'
-  }
+<script lang="ts">
+export default {
+  name: 'orion'
+}
 </script>
 
 <style>
-  /* CSS */
+/* CSS */
 </style>
