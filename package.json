@@ -57,7 +57,11 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
+    "element-ui": "^1.4.4",
+    "oauth": "^0.9.15",
     "tslib": "^1.7.1",
+    "twitter": "^1.7.1",
+    "twitter-text": "^1.14.7",
     "vue": "^2.3.3",
     "vue-class-component": "^5.0.2",
     "vue-electron": "^1.0.6",
@@ -66,6 +70,7 @@
     "vuex": "^2.3.1"
   },
   "devDependencies": {
+    "@types/twitter-text": "^1.13.17",
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
