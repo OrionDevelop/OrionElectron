@@ -25,9 +25,11 @@ let rendererConfig = {
   entry: {
     renderer: path.join(__dirname, '../src/renderer/main.ts')
   },
+  /*
   externals: [
     ...Object.keys(dependencies || {}).filter(d => !whiteListedModules.includes(d))
   ],
+  */
   module: {
     rules: [
       {
@@ -47,6 +49,16 @@ let rendererConfig = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: 'css-loader'
+        })
+      },
+      {
+        test: /\.scss$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            'css-loader',
+            'sass-loader'
+          ]
         })
       },
       {
