@@ -49,7 +49,7 @@ export class Authorization {
             if (error2) {
               const auth = new Authorization(callback);
             } else {
-              callback(new Account(accessToken, accessTokenSecret));
+              callback(new Account("twtr", accessToken, accessTokenSecret));
             }
           });
         } else if (url.match(/\/account\/login_verification/)) {

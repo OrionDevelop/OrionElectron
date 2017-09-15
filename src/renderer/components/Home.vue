@@ -1,13 +1,30 @@
-<template>
-  <div v-loading.fullscreen.lock="needAuthenticate" :element-loading-text="text">
-    <p>
-      あああ
-    </p>
-  </div>
+<template lang="pug">
+  .root(v-loading.fullscreen.lock="needAuthenticate" element-loading-text="待機中...")
+    .drawer
+      .container
+        el-card
+          p
+            | Hello
+    .contents
+      .container
 </template>
 
 <style lang="scss" scoped>
+.root {
+  display: flex;
+}
 
+.drawer {
+  width: 300px;
+}
+
+.contents {
+  flex: 1;
+}
+
+.container {
+  padding: 5px;
+}
 </style>
 
 <script lang="ts">
