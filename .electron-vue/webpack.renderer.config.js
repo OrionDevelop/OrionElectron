@@ -45,6 +45,17 @@ let rendererConfig = {
         }
       },
       {
+        test: /\.ts$/,
+        enforce: 'pre',
+        exclude: /node_modules/,
+        use: {
+          loader: 'tslint-loader',
+          options: {
+            configFile: 'tslint.json'
+          }
+        }
+      },
+      {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
@@ -89,7 +100,8 @@ let rendererConfig = {
             extractCSS: process.env.NODE_ENV === 'production',
             loaders: {
               sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-              scss: 'vue-style-loader!css-loader!sass-loader'
+              scss: 'vue-style-loader!css-loader!sass-loader',
+              ts: 'ts-loader!tslint-loader'
             }
           }
         }

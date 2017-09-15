@@ -6,8 +6,8 @@
 
 <script lang="ts">
 export default {
-  name: 'orion'
-}
+  name: "orion"
+};
 </script>
 
 <style>

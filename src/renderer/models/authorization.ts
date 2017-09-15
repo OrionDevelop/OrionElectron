@@ -1,12 +1,12 @@
-import { remote } from 'electron';
-import * as oauth from 'oauth';
-import * as twitter from 'twitter';
+import { remote } from "electron";
+import * as oauth from "oauth";
+import * as twitter from "twitter";
 
-import { Account } from './account';
+import { Account } from "./account";
 import {
   TWITTER_CONSUMER_KEY,
   TWITTER_CONSUMER_SECRET
-} from './constants';
+} from "./constants";
 
 const BrowserWindow = remote.BrowserWindow;
 
@@ -21,34 +21,33 @@ export class Authorization {
       "https://twitter.com/oauth/access_token",
       TWITTER_CONSUMER_KEY,
       TWITTER_CONSUMER_SECRET,
-      '1.0A',
+      "1.0A",
       null,
-      'HMAC-SHA1'
+      "HMAC-SHA1"
     );
-    oa.getOAuthRequestToken(null, (error, requestToken, requestTokenSecret, result) => {
-      if (error) {
-        new Authorization(callback);
+    oa.getOAuthRequestToken(null, (error1, requestToken, requestTokenSecret, _1) => {
+      if (error1) {
+        const auth = new Authorization(callback);
         return;
       }
-      const url = `https://twitter.com/oauth/authenticate?oauth_token=${requestToken}&force_login=true`;
       if (Authorization.window) {
         Authorization.window.close();
       }
       Authorization.window = new BrowserWindow({
         height: 600,
-        width: 810,
         webPreferences: {
-          nodeIntegration: false
-        }
+          nodeIntegration: false,
+        },
+        width: 810
       });
-      Authorization.window.webContents.on('will-navigate', (event, url) => {
-        var matched = url.match(/\?oauth_token=([^&]*)&oauth_verifier=([^&]*)/);
+      Authorization.window.webContents.on("will-navigate", (event, url) => {
+        const matched = url.match(/\?oauth_token=([^&]*)&oauth_verifier=([^&]*)/);
         if (matched) {
           event.preventDefault();
-          oa.getOAuthAccessToken(requestToken, requestTokenSecret, matched[2], (error, accessToken, accessTokenSecret, result) => {
+          oa.getOAuthAccessToken(requestToken, requestTokenSecret, matched[2], (error2, accessToken, accessTokenSecret, _2) => {
             Authorization.window.close();
-            if (error) {
-              new Authorization(callback);
+            if (error2) {
+              const auth = new Authorization(callback);
             } else {
               callback(new Account(accessToken, accessTokenSecret));
             }
@@ -61,10 +60,10 @@ export class Authorization {
           // noop (redirection to successful callback)
         } else {
           event.preventDefault();
-          new Authorization(callback);
+          const auth = new Authorization(callback);
         }
       });
-      Authorization.window.loadURL(url);
+      Authorization.window.loadURL(`https://twitter.com/oauth/authenticate?oauth_token=${requestToken}&force_login=true`);
     });
   }
 }

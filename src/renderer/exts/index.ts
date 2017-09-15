@@ -1,11 +1,7 @@
 // Extensions for existing classes
+// tslint:disable:interface-name
 interface NodeRequire {
   context(file: string, flag?: boolean, exp?: RegExp): any;
-}
-
-interface Vue {
-  http: any;
-  $http: any;
 }
 
 interface IndexerObject {

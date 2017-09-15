@@ -1,30 +1,30 @@
-import { Account } from '../../models/account';
+import { Account } from "../../models/account";
 
-type State = {
+interface IState {
   main: Account[];
-};
+}
 
-const state: State = {
+const state: IState = {
   main: []
 };
 
 const mutations = {
-  ADD_ACCOUNT(state: State, account: Account) {
-    state.main.push(account);
+  ADD_ACCOUNT(s: IState, account: Account) {
+    s.main.push(account);
   },
-  REMOVE_ACCOUNT(state: State, account: Account) {
-    state.main.filter((w) => w.id != account.id);
+  REMOVE_ACCOUNT(s: IState, account: Account) {
+    s.main.filter((w) => w.id !== account.id);
   }
 };
 
 const actions = {
   registerAccount({ commit }, account) {
-    commit('ADD_ACCOUNT', account);
+    commit("ADD_ACCOUNT", account);
   }
 };
 
 export default {
-  state,
+  actions,
   mutations,
-  actions
+  state,
 };
