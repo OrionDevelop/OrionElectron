@@ -2,9 +2,7 @@
   .root(v-loading.fullscreen.lock="needAuthenticate" element-loading-text="待機中...")
     .drawer
       .container
-        el-card
-          p
-            | Hello
+        drawer
     .contents
       .container
 </template>
@@ -30,33 +28,44 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
-import { mapActions, mapState } from "vuex";
 import { Action, State } from "vuex-class";
 
-import { Account } from "../models/account";
+import Drawer from "./Home/Drawer.vue";
 import { Authorization } from "../models/authorization";
+import { Credential } from "../models/credential";
 
-@Component
+@Component({
+  components: {
+    "drawer": Drawer
+  }
+})
 export default class Home extends Vue {
 
   @Prop({ default: "処理中..." })
   public text: string;
 
-  @State((state: any) => state.Accounts.main)
-  private accounts: Account[];
+  @State((state: any) => state.Credentials.main)
+  private credentials: Credential[];
 
-  @Action("registerAccount")
-  private registerAccount: (payload: Account) => void;
+  @Action("registerCredential")
+  private registerCredential: (payload: Credential) => void;
+
+  @Action("restoreCredential")
+  private restoreCredential: (payload: Credential) => void;
 
   get needAuthenticate(): boolean {
-    return this.accounts.length === 0;
+    return this.credentials.length === 0;
   }
 
   public mounted(): void {
     if (this.needAuthenticate) {
-      const auth = new Authorization((account: Account) => {
-        this.registerAccount(account);
+      const auth = new Authorization((credential: Credential) => {
+        this.registerCredential(credential);
       });
+    } else {
+      for (const credential of this.credentials) {
+        this.restoreCredential(credential);
+      }
     }
   }
 }

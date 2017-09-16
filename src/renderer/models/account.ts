@@ -1,22 +1,11 @@
-import { uuid } from "./utils";
+import { TwitterClient } from "./twitterclient";
 
 export class Account {
-  public readonly client;
-  // tslint:disable:variable-name
-  private _id: string;
-  private _provider: string;
-  // tslint:enable:variable-name
-
-  public constructor(provider: string, private accessToken: string, private accessTokenSecret: string) {
-    this._id = uuid();
-    this._provider = provider;
+  // tslint:disable-next-line:variable-name
+  public constructor(private _client: TwitterClient, public user: any) {
   }
 
-  get id(): string {
-    return this._id;
-  }
-
-  get provider(): string {
-    return this._provider;
+  get client(): TwitterClient {
+    return this._client;
   }
 }

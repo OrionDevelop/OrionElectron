@@ -9,8 +9,11 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   modules,
   plugins: [createPersistedState({
-    filter: (mutation: any) => {
+    filter: (mutation: { type: string, payload: any }) => {
       // type=ADD_ACCOUNT, payload=Account.instance
+      if (mutation.type.endsWith("CREDENTIAL")) {
+        return false;
+      }
       return true;
     }
   })],

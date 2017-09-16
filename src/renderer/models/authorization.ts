@@ -2,15 +2,15 @@ import { remote } from "electron";
 import * as oauth from "oauth";
 import * as twitter from "twitter";
 
-import { Account } from "./account";
 import {
   TWITTER_CONSUMER_KEY,
   TWITTER_CONSUMER_SECRET
 } from "./constants";
+import { Credential } from "./credential";
 
 const BrowserWindow = remote.BrowserWindow;
 
-type OAuthCallback = (account: Account) => void;
+type OAuthCallback = (credential: Credential) => void;
 
 export class Authorization {
   private static window: Electron.BrowserWindow;
@@ -49,7 +49,7 @@ export class Authorization {
             if (error2) {
               const auth = new Authorization(callback);
             } else {
-              callback(new Account("twtr", accessToken, accessTokenSecret));
+              callback(new Credential("twtr", accessToken, accessTokenSecret));
             }
           });
         } else if (url.match(/\/account\/login_verification/)) {
