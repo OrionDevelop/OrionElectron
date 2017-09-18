@@ -2,18 +2,13 @@
   el-menu.sidebar(default-active="1" :collapse="isCollapse")
     el-submenu(index="1")
       template(slot="title")
-        i.el-icon-fa-lg.el-icon-fa-user
-        // i.el-icon-message
-        span(slot="title") Navigator One
+        i.el-icon-fa-lg.el-icon-fa-list
       el-menu-item-group
-        span(slot="title") Group One
+        span(slot="title") Timelines
         el-menu-item(index="1-1") item one
         el-menu-item(index="1-2") item two
-      el-menu-item-group(title="Group Two")
         el-menu-item(index="1-3") item three
-      el-submenu(index="1-4")
-        span(slot="title") item four
-        el-menu-item(index="1-4-1") item one
+        el-menu-item(index="1-4-") item one
     el-menu-item(index="2")
       i.el-icon-menu
       span(slot="title") Navigator Two
@@ -87,7 +82,7 @@ export default class Home extends Vue {
   }
 
   private hasAccount(): boolean {
-    return this.mainAccount !== null;
+    return !this.mainAccount.isNull;
   }
 }
 </script>

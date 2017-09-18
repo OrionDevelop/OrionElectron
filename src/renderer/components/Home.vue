@@ -67,6 +67,7 @@ export default class Home extends Vue {
     if (this.needAuthenticate) {
       const auth = new Authorization((credential: Credential) => {
         this.registerCredential(credential);
+        this.restoreCredential(credential);
       });
     } else {
       for (const credential of this.credentials) {
