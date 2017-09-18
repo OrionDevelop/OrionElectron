@@ -13,7 +13,8 @@ const BrowserWindow = remote.BrowserWindow;
 type OAuthCallback = (credential: Credential) => void;
 
 export class Authorization {
-  private static window: Electron.BrowserWindow;
+  private static window: Electron.BrowserWindow | null;
+  private isAuthed: boolean = false;
 
   public constructor(callback: OAuthCallback) {
     const oa = new oauth.OAuth(
@@ -45,10 +46,14 @@ export class Authorization {
         if (matched) {
           event.preventDefault();
           oa.getOAuthAccessToken(requestToken, requestTokenSecret, matched[2], (error2, accessToken, accessTokenSecret, _2) => {
+            if (Authorization.window === null) {
+              return; // not visited.
+            }
             Authorization.window.close();
             if (error2) {
               const auth = new Authorization(callback);
             } else {
+              this.isAuthed = true;
               callback(new Credential("twtr", accessToken, accessTokenSecret));
             }
           });
@@ -63,7 +68,14 @@ export class Authorization {
           const auth = new Authorization(callback);
         }
       });
+      Authorization.window.on("close", () => {
+        if (!this.isAuthed) {
+          Authorization.window = null;
+          const auth = new Authorization(callback);
+        }
+      });
       Authorization.window.loadURL(`https://twitter.com/oauth/authenticate?oauth_token=${requestToken}&force_login=true`);
+      Authorization.window.show();
     });
   }
 }
