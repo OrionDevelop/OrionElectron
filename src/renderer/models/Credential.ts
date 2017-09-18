@@ -1,7 +1,7 @@
 import { uuid } from "./utils";
 
-import { Account } from "./account";
-import { TwitterClient } from "./twitterclient";
+import { Account } from "./Account";
+import { TwitterClient } from "./TwitterClient";
 
 export class Credential {
   public static async restore(credential: Credential): Promise<Account> {

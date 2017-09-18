@@ -1,5 +1,5 @@
-import { Account } from "../../models/account";
-import { Credential } from "../../models/credential";
+import { Account } from "../../models/Account";
+import { Credential } from "../../models/Credential";
 
 interface IState {
   main: Account[];

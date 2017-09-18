@@ -24,8 +24,9 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { Action, State } from "vuex-class";
 
-import { Authorization } from "../models/authorization";
-import { Credential } from "../models/credential";
+import { Account } from "../models/Account";
+import { Authorization } from "../models/Authorization";
+import { Credential } from "../models/Credential";
 import Sidearea from "./Home/Sidearea.vue";
 
 @Component({
@@ -55,7 +56,11 @@ export default class Home extends Vue {
   }
 
   get mainAccount(): Account {
-    return this.accounts[0];
+    if (this.accounts.length > 0) {
+      return this.accounts[0];
+    } else {
+      return Account.createNull();
+    }
   }
 
   public mounted(): void {

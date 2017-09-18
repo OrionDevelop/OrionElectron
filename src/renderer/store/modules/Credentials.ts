@@ -1,4 +1,4 @@
-import { Credential } from "../../models/credential";
+import { Credential } from "../../models/Credential";
 
 interface IState {
   main: Credential[];

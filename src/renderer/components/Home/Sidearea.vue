@@ -59,7 +59,7 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
-import { Account } from "../../models/account";
+import { Account } from "../../models/Account";
 
 @Component
 export default class Home extends Vue {

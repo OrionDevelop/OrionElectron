@@ -5,8 +5,8 @@ import * as twitter from "twitter";
 import {
   TWITTER_CONSUMER_KEY,
   TWITTER_CONSUMER_SECRET
-} from "./constants";
-import { Credential } from "./credential";
+} from "./Constants";
+import { Credential } from "./Credential";
 
 const BrowserWindow = remote.BrowserWindow;
 
