@@ -11,10 +11,12 @@ export default new Vuex.Store({
   plugins: [createPersistedState({
     filter: (mutation: { type: string, payload: any }) => {
       // type=ADD_ACCOUNT, payload=Account.instance
-      if (mutation.type.endsWith("CREDENTIAL")) {
-        return false;
+      switch (mutation.type) {
+        case "RESTORE_CREDENTIAL":
+          return false;
+        default:
+          return true;
       }
-      return true;
     }
   })],
   strict: process.env.NODE_ENV !== "production"
