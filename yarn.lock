@@ -4944,10 +4944,6 @@ lodash.merge@^3.3.2:
     lodash.keysin "^3.0.0"
     lodash.toplainobject "^3.0.0"
 
-lodash.merge@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.0.tgz#69884ba144ac33fe699737a6086deffadd0f89c5"
-
 lodash.mergewith@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.0.tgz#150cf0a16791f5903b8891eab154609274bdea55"
@@ -5524,10 +5520,6 @@ object-keys@^1.0.8:
 object-keys@~0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/object-keys/-/object-keys-0.4.0.tgz#28a6aae7428dd2c3a92f3d95f21335dd204e0336"
-
-object-path@^0.11.2:
-  version "0.11.4"
-  resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.4.tgz#370ae752fbf37de3ea70a861c23bba8915691949"
 
 object.omit@^2.0.0:
   version "2.0.1"
@@ -7893,13 +7885,6 @@ vue@^2.3.3:
 vuex-class@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/vuex-class/-/vuex-class-0.2.0.tgz#84fb2f34ddbf7384381576ed3222b3d2abad5649"
-
-vuex-persistedstate@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/vuex-persistedstate/-/vuex-persistedstate-2.0.0.tgz#b84f530da4679bdf694c5ddf65c23033aa79b1bb"
-  dependencies:
-    lodash.merge "^4.6.0"
-    object-path "^0.11.2"
 
 vuex@^2.3.1:
   version "2.4.0"

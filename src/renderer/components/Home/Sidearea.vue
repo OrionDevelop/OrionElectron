@@ -54,8 +54,6 @@
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
-import { Account } from "../../models/Account";
-
 @Component
 export default class Home extends Vue {
 
@@ -66,23 +64,15 @@ export default class Home extends Vue {
   public mainAccount: Account;
 
   get icon(): string {
-    if (this.hasAccount()) {
-      return this.mainAccount.user.profile_image_url_https.replace("normal", "bigger");
-    } else {
-      return "";
-    }
+    return "";
   }
 
   get username(): string {
-    if (this.hasAccount()) {
-      return this.mainAccount.user.username;
-    } else {
-      return "unknown user";
-    }
+    return "unknown user";
   }
 
   private hasAccount(): boolean {
-    return !this.mainAccount.isNull;
+    return false;
   }
 }
 </script>
