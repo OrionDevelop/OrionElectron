@@ -58,6 +58,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "element-ui": "^1.4.4",
+    "font-awesome": "^4.7.0",
     "oauth": "^0.9.15",
     "tslib": "^1.7.1",
     "tslint": "^5.7.0",
