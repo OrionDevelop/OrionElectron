@@ -55,7 +55,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { Getter } from "vuex-class";
 
-import { Account } from "../../models/Account";
+import { Account } from "../models/Account";
 
 @Component
 export default class Home extends Vue {
