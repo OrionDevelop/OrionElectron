@@ -63,7 +63,7 @@ import { Account } from "../models/Account";
 import { Timeline } from "../models/Timeline";
 
 @Component
-export default class Home extends Vue {
+export default class SideareaComponent extends Vue {
 
   @Prop({ default: true })
   public isCollapse: boolean;

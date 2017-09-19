@@ -49,22 +49,22 @@ import TimelineComponent from "./Timeline.vue";
     timeline: TimelineComponent,
   }
 })
-export default class Home extends Vue {
+export default class HomeComponent extends Vue {
 
   @Action("addAccount")
-  public addAccount: (tokens: ITokens) => void;
+  private addAccount: (tokens: ITokens) => void;
 
   @Action("restoreTimelines")
-  public restoreTimelines: (accounts: Account[]) => void;
+  private restoreTimelines: (accounts: Account[]) => void;
 
   @Action("prepareDefaultTimelines")
-  public prepareDefaultTimelines: (account: Account) => void;
+  private prepareDefaultTimelines: (account: Account) => void;
 
   @Getter("accounts")
-  public accounts: Account[];
+  private accounts: Account[];
 
   @Getter("timelines")
-  public timelines: Timeline[];
+  private timelines: Timeline[];
 
   private started: boolean = false;
 
@@ -90,6 +90,7 @@ export default class Home extends Vue {
     if (!this.started) {
       return;
     }
+    this.started = false;
     if (this.timelines.length == 0) {
       this.restoreTimelines(this.accounts);
     }
