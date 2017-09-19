@@ -66,6 +66,8 @@ export default class Home extends Vue {
   @Getter("timelines")
   public timelines: Timeline[];
 
+  private started: boolean = false;
+
   get mainAccount(): Account | null {
     if (this.accounts.length > 0) {
       return this.accounts[0];
@@ -75,17 +77,22 @@ export default class Home extends Vue {
   }
 
   public mounted(): void {
-    Authentication.accounts.forEach((w) => {
+    Authentication.accounts.forEach((w, index) => {
       this.addAccount(w);
+      if ((index + 1) >= Authentication.accounts.length) {
+        this.started = true;
+      }
     });
   }
 
   @Watch("accounts")
   public onAccountsChanged(newVal: Account[], oldVal: Account[]) {
-    if (newVal.length === 0) {
+    if (!this.started) {
       return;
     }
-    this.restoreTimelines(this.accounts);
+    if (this.timelines.length == 0) {
+      this.restoreTimelines(this.accounts);
+    }
     if (this.timelines.length === 0) {
       this.prepareDefaultTimelines(this.accounts[0]);
     }
