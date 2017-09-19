@@ -53,6 +53,9 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
+import { Getter } from "vuex-class";
+
+import { Account } from "../../models/Account";
 
 @Component
 export default class Home extends Vue {
@@ -60,11 +63,15 @@ export default class Home extends Vue {
   @Prop({ default: true })
   public isCollapse: boolean;
 
-  @Prop({ default: null })
-  public mainAccount: Account;
+  @Getter("accounts")
+  public accounts: Account[];
 
   get icon(): string {
-    return "";
+    if (this.hasAccount()) {
+      const account = this.accounts[0];
+      return account.user.profile_image_url_https.replace("normal", "bigger");
+    }
+    return "https://placehold.jp/36x36.png";
   }
 
   get username(): string {
@@ -72,7 +79,7 @@ export default class Home extends Vue {
   }
 
   private hasAccount(): boolean {
-    return false;
+    return this.accounts.length > 0;
   }
 }
 </script>

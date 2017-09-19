@@ -3,7 +3,7 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
 
-import { Authentication } from "./auth";
+import { Authentication } from "../common/auth";
 
 if (process.env.NODE_ENV !== "development") {
   (global as any).__static = path.join(__dirname, "/static").replace(/\\/g, "\\\\");

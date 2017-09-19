@@ -2,18 +2,14 @@ import { BrowserWindow } from "electron";
 import * as oauth from "oauth";
 import * as Twitter from "twitter";
 
-import { readFile, writeFile } from "../io";
+import { readFile, writeFile } from "../common/io";
+import { ITokens } from "../renderer/models/ITokens";
 
 import {
   CREDENTIALS_PATH,
   TWITTER_CONSUMER_KEY,
   TWITTER_CONSUMER_SECRET
-} from "../constants";
-
-export interface ITokens {
-  accessToken: string;
-  accessTokenSecret: string;
-}
+} from "../common/constants";
 
 export class Authentication {
   // Start authentication process for `provider`.
@@ -75,8 +71,8 @@ export class Authentication {
               this.start(provider, parent, callback);
               return;
             } else {
-              this.register({ accessToken, accessTokenSecret });
-              callback({ accessToken, accessTokenSecret });
+              this.register([], { accessToken, accessTokenSecret, order: this.nextOrder() });
+              callback({ accessToken, accessTokenSecret, order: this.nextOrder() });
               this.window.close();
             }
           });
@@ -98,12 +94,12 @@ export class Authentication {
 
   // Verify registered account's tokens.
   public static async verify(callback: () => void): Promise<void> {
-    const text = readFile(CREDENTIALS_PATH);
-    this.credentials = JSON.parse(text === "" ? this.default : text);
-    if (this.credentials.length === 0) {
+    let credentials = this.accounts;
+    if (credentials.length === 0) {
       this.start("twtr", null, (tokens) => callback());
     } else {
-      for (const tokens of this.credentials) {
+      const freezed = credentials.filter((w) => true);
+      for (const tokens of freezed) {
         try {
           const twitter = new Twitter({
             access_token_key: tokens.accessToken,
@@ -113,10 +109,10 @@ export class Authentication {
           });
           const _ = await twitter.get("account/verify_credentials.json", {});
         } catch (error) {
-          this.unregister(tokens);
+          credentials = this.unregister(credentials, tokens);
         }
       }
-      if (this.credentials.length === 0) {
+      if (credentials.length === 0) {
         this.start("twtr", null, (tokens) => callback());
       } else {
         callback();
@@ -125,20 +121,27 @@ export class Authentication {
   }
 
   public static get accounts(): ITokens[] {
-    return this.credentials;
+    const text = readFile(CREDENTIALS_PATH);
+    const credentials = JSON.parse(text === "" ? this.default : text);
+    return credentials;
   }
 
-  private static default: string = JSON.stringify([]);
-  private static credentials: ITokens[] = [];
+  private static readonly default: string = JSON.stringify([]);
   private static window: Electron.BrowserWindow | null = null;
 
-  private static register(tokens: ITokens): void {
-    this.credentials.push(tokens);
-    writeFile(CREDENTIALS_PATH, JSON.stringify(this.credentials));
+  private static register(credentials: ITokens[], tokens: ITokens): ITokens[] {
+    credentials.push(tokens);
+    writeFile(CREDENTIALS_PATH, JSON.stringify(credentials));
+    return credentials;
   }
 
-  private static unregister(tokens: ITokens): void {
-    this.credentials = this.credentials.filter((w) => w.accessToken !== tokens.accessToken);
-    writeFile(CREDENTIALS_PATH, JSON.stringify(this.credentials));
+  private static unregister(credentials: ITokens[], tokens: ITokens): ITokens[] {
+    credentials = credentials.filter((w) => w.accessToken !== tokens.accessToken);
+    writeFile(CREDENTIALS_PATH, JSON.stringify(credentials));
+    return credentials;
+  }
+
+  private static nextOrder(): number {
+    return this.accounts.length + 1;
   }
 }

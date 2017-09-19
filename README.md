@@ -1,4 +1,5 @@
-# orion
+# Orion
+[![license](https://img.shields.io/github/license/OrionDevelop/Orion.svg?style=flat-square)](https://github.com/OrionDevelop/Orion/blob/develop/LICENSE)
 
 > Extensible microblogging application for Desktop.
 
