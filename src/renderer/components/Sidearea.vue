@@ -4,13 +4,10 @@
       template(slot="title")
         i.el-icon-fa-lg.el-icon-fa-list
       el-menu-item-group
-        span(slot="title") Timelines
+        span(slot="title") TIMELINES
         el-menu-item(v-for="(timeline, index) in timelines" :index="indexize(index)")
           span {{timeline.name}}
           small {{timeline.hostBy()}}
-    el-menu-item(index="2")
-      i.el-icon-menu
-      span(slot="title") Navigator Two
     .bottom-wrap
       .bottom
         el-menu-item.fix-for-icon(index="2")
