@@ -5,10 +5,9 @@
         i.el-icon-fa-lg.el-icon-fa-list
       el-menu-item-group
         span(slot="title") Timelines
-        el-menu-item(index="1-1") item one
-        el-menu-item(index="1-2") item two
-        el-menu-item(index="1-3") item three
-        el-menu-item(index="1-4-") item one
+        el-menu-item(v-for="(timeline, index) in timelines" :index="indexize(index)")
+          span {{timeline.name}}
+          small {{timeline.hostBy()}}
     el-menu-item(index="2")
       i.el-icon-menu
       span(slot="title") Navigator Two
@@ -48,6 +47,14 @@
     bottom: 0;
   }
 }
+
+span+small {
+  margin-left: 5px;
+}
+
+small {
+  color: gray;
+}
 </style>
 
 <script lang="ts">
@@ -56,6 +63,7 @@ import { Component, Prop } from "vue-property-decorator";
 import { Getter } from "vuex-class";
 
 import { Account } from "../models/Account";
+import { Timeline } from "../models/Timeline";
 
 @Component
 export default class Home extends Vue {
@@ -63,13 +71,16 @@ export default class Home extends Vue {
   @Prop({ default: true })
   public isCollapse: boolean;
 
-  @Getter("accounts")
-  public accounts: Account[];
+  @Prop({ default: null })
+  public account: Account;
 
+  @Prop()
+  public timelines: Timeline[];
+
+  // Computed
   get icon(): string {
     if (this.hasAccount()) {
-      const account = this.accounts[0];
-      return account.user.profile_image_url_https.replace("normal", "bigger");
+      return this.account.user.profile_image_url_https.replace("normal", "bigger");
     }
     return "https://placehold.jp/36x36.png";
   }
@@ -78,8 +89,12 @@ export default class Home extends Vue {
     return "unknown user";
   }
 
+  public indexize(index: number): string {
+    return `1-${index}`;
+  }
+
   private hasAccount(): boolean {
-    return this.accounts.length > 0;
+    return this.account !== null;
   }
 }
 </script>

@@ -1,9 +1,9 @@
 <template lang="pug">
   el-card.box-card
     div.header(slot="header")
-      i.el-icon-fa-20.el-icon-fa-home
-      span {{name}}
-      small {{who}}
+      i.el-icon-fa-20(:class="icon")
+      span {{timeline.name}}
+      small {{timeline.hostBy()}}
       i.last.el-icon-fa-20.el-icon-fa-ellipsis-h
     div
       | Hello World
@@ -34,7 +34,7 @@ span+small {
 }
 
 small {
-  color: silver;
+  color: gray;
 }
 </style>
 
@@ -47,15 +47,15 @@ import { Timeline } from "../models/Timeline";
 
 @Component
 export default class TimelineComponent extends Vue {
-  @Prop()
+  @Prop({ default: null })
   private timeline: Timeline;
 
-  public get name(): string {
-    return this.timeline.name;
+  public get icon(): string {
+    return `el-icon-fa-${this.timeline.icon}`;
   }
 
-  public get who(): string {
-    return this.timeline.name || "All";
+  private hasTimeline(): boolean {
+    return this.timeline !== null;
   }
 }
 </script>

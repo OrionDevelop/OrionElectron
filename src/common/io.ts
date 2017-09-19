@@ -14,3 +14,9 @@ export function readFile(path: string): string {
     return "";
   }
 }
+
+export function appendFile(path: string, def: any, callback: (content: any) => any): void {
+  const text = readFile(path);
+  const json = callback(JSON.parse(text === "" ? JSON.stringify(def) : text));
+  writeFile(path, JSON.stringify(json));
+}

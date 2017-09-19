@@ -1,9 +1,9 @@
 <template lang="pug">
   .root
-    sidearea
+    sidearea(:account="mainAccount" :timelines="timelines")
     .contents
       .container
-        // timeline.column(v-for="_ in 5")
+        timeline.column(v-for="timeline in timelines" :timeline="timeline")
 </template>
 
 <style lang="scss" scoped>
@@ -32,18 +32,21 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
-import { Action, State } from "vuex-class";
+import { Component, Prop, Watch } from "vue-property-decorator";
+import { Action, Getter, State } from "vuex-class";
 
-import Sidearea from "./Sidearea.vue";
-import Timeline from "./Timeline.vue";
-import { ITokens } from "../models/ITokens";
 import { Authentication } from "../../common/auth";
+import { Account } from "../models/Account";
+import { ITokens } from "../models/ITokens";
+import { Timeline } from "../models/Timeline";
+import Sidearea from "./Sidearea.vue";
+import TimelineComponent from "./Timeline.vue";
+
 
 @Component({
   components: {
     sidearea: Sidearea,
-    timeline: Timeline,
+    timeline: TimelineComponent,
   }
 })
 export default class Home extends Vue {
@@ -51,10 +54,41 @@ export default class Home extends Vue {
   @Action("addAccount")
   public addAccount: (tokens: ITokens) => void;
 
+  @Action("restoreTimelines")
+  public restoreTimelines: (accounts: Account[]) => void;
+
+  @Action("prepareDefaultTimelines")
+  public prepareDefaultTimelines: (account: Account) => void;
+
+  @Getter("accounts")
+  public accounts: Account[];
+
+  @Getter("timelines")
+  public timelines: Timeline[];
+
+  get mainAccount(): Account | null {
+    if (this.accounts.length > 0) {
+      return this.accounts[0];
+    } else {
+      return null;
+    }
+  }
+
   public mounted(): void {
     Authentication.accounts.forEach((w) => {
       this.addAccount(w);
     });
+  }
+
+  @Watch("accounts")
+  public onAccountsChanged(newVal: Account[], oldVal: Account[]) {
+    if (newVal.length === 0) {
+      return;
+    }
+    this.restoreTimelines(this.accounts);
+    if (this.timelines.length === 0) {
+      this.prepareDefaultTimelines(this.accounts[0]);
+    }
   }
 }
 </script>
