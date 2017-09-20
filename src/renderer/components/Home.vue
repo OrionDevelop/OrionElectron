@@ -36,8 +36,8 @@ import { Component, Prop, Watch } from "vue-property-decorator";
 import { Action, Getter, State } from "vuex-class";
 
 import { Authentication } from "../../common/auth";
+import { ITokens } from "../../common/ITokens";
 import { Account } from "../models/Account";
-import { ITokens } from "../models/ITokens";
 import { Timeline } from "../models/Timeline";
 import Sidearea from "./Sidearea.vue";
 import TimelineComponent from "./Timeline.vue";

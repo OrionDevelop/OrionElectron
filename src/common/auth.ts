@@ -1,9 +1,9 @@
 import { BrowserWindow } from "electron";
 import * as oauth from "oauth";
-import * as Twitter from "twitter";
 
 import { readFile, writeFile } from "../common/io";
-import { ITokens } from "../renderer/models/ITokens";
+import { ITokens } from "./ITokens";
+import { TwitterClient } from "./TwitterClient";
 
 import {
   CREDENTIALS_PATH,
@@ -101,13 +101,8 @@ export class Authentication {
       const freezed = credentials.filter((w) => true);
       for (const tokens of freezed) {
         try {
-          const twitter = new Twitter({
-            access_token_key: tokens.accessToken,
-            access_token_secret: tokens.accessTokenSecret,
-            consumer_key: TWITTER_CONSUMER_KEY,
-            consumer_secret: TWITTER_CONSUMER_SECRET
-          });
-          const _ = await twitter.get("account/verify_credentials.json", {});
+          const twitter = new TwitterClient(tokens);
+          const _ = await twitter.verifyCredentials();
         } catch (error) {
           credentials = this.unregister(credentials, tokens);
         }

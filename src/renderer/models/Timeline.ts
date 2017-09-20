@@ -1,3 +1,4 @@
+import { uuid } from "../../common/utils";
 import { Account } from "./Account";
 
 export class Timeline {
@@ -14,6 +15,7 @@ export class Timeline {
     return timelines;
   }
 
+  public uuid: string;
   public name: string;
   public icon: string;
   public order: number;
@@ -21,6 +23,7 @@ export class Timeline {
   public belongsTo: number; // belongs to user_id
 
   public constructor(name: string, icon: string, order: number, account: Account) {
+    this.uuid = uuid();
     this.name = name;
     this.icon = icon;
     this.order = order;

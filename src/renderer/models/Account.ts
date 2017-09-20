@@ -1,5 +1,5 @@
-import { ITokens } from "./ITokens";
-import { TwitterClient } from "./TwitterClient";
+import { ITokens } from "../../common/ITokens";
+import { TwitterClient } from "../../common/TwitterClient";
 
 export class Account {
   public readonly client: TwitterClient;

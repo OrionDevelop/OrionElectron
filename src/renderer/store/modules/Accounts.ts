@@ -1,6 +1,6 @@
 import { Authentication } from "../../../common/auth";
+import { ITokens } from "../../../common/ITokens";
 import { Account } from "../../models/Account";
-import { ITokens } from "../../models/ITokens";
 
 interface IState {
   accounts: Account[];
