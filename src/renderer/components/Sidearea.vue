@@ -12,7 +12,7 @@
       .bottom
         el-menu-item.fix-for-icon(index="2")
           img.icon(:src="icon")
-          span(slot="title") You
+          span(slot="title") {{username}}
         el-menu-item(index="3")
           i.el-icon-fa-lg.el-icon-fa-gear
           span(slot="title") Settings
@@ -83,7 +83,10 @@ export default class SideareaComponent extends Vue {
   }
 
   get username(): string {
-    return "unknown user";
+    if (this.hasAccount()) {
+      return this.account.user.name;
+    }
+    return "You";
   }
 
   public indexize(index: number): string {

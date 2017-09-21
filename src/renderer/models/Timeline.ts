@@ -32,7 +32,7 @@ export class Timeline {
     this.local = local;
     this.order = order;
     this.account = account;
-    this.belongsTo = account.user.id;
+    this.belongsTo = account.user.id || 0;
   }
 
   public hostBy(): string {

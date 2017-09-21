@@ -1,8 +1,9 @@
+import { IStatus } from "../../../common/twitter";
 import { Account } from "../../models/Account";
 import { credentials } from "../../models/Credentials";
 
 interface IState {
-  statuses: any[];
+  statuses: IStatus[];
   subscribers: any[];
 }
 
@@ -18,10 +19,10 @@ const mutations = {
   UNSUBSCRIBE_TIMELINE(w: IState, subscriber: Account) {
     w.subscribers = w.subscribers.filter((v) => v.uuid !== subscriber.uuid);
   },
-  ADD_STATUS(w: IState, status: any) {
-    w.statuses.push(status);
+  ADD_STATUS(w: IState, status: IStatus) {
+    w.statuses.unshift(status);
   },
-  DELETE_STATUS(w: IState, status: any) {
+  DELETE_STATUS(w: IState, status: IStatus) {
     w.statuses = w.statuses.filter((v) => v.id !== status.id);
   }
 };
@@ -42,7 +43,7 @@ const actions = {
 
 const getters = {
   statuses: (w: IState) => {
-    return [...w.statuses].sort((a, b) => a.id - b.id);
+    return [...w.statuses].sort((a, b) => b.id - a.id);
   }
 };
 
