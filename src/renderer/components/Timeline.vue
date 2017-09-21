@@ -1,11 +1,11 @@
 <template lang="pug">
-  el-card.box-card
+  el-card.box-card(:body-style="bodyStyle")
     div.header(slot="header")
       i.el-icon-fa-20(:class="icon")
       span {{timeline.name}}
       small {{timeline.hostBy()}}
       i.last.el-icon-fa-20.el-icon-fa-ellipsis-h
-    div
+    .content
       div(v-for="status in statuses")
         p {{status.text}}
 </template>
@@ -61,6 +61,15 @@ export default class TimelineComponent extends Vue {
 
   public get icon(): string {
     return `el-icon-fa-${this.timeline.icon}`;
+  }
+
+  public get bodyStyle(): any {
+    return {
+      flex: "1 1 auto",
+      "max-height": "calc(100% - 60px)",
+      "overflow-y": "auto",
+      "padding": "0 20px"
+    };
   }
 
   public mounted(): void {
