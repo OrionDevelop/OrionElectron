@@ -6,7 +6,8 @@
       small {{timeline.hostBy()}}
       i.last.el-icon-fa-20.el-icon-fa-ellipsis-h
     div
-      | Hello World
+      div(v-for="status in statuses")
+        p {{status.text}}
 </template>
 
 <style lang="scss" scoped>
@@ -42,7 +43,9 @@ small {
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
+import { Action, Getter, State } from "vuex-class";
 
+import { Account } from "../models/Account";
 import { Timeline } from "../models/Timeline";
 
 @Component
@@ -50,8 +53,18 @@ export default class TimelineComponent extends Vue {
   @Prop({ default: null })
   private timeline: Timeline;
 
+  @Action
+  private subscribeTimeline: (account: Account) => void;
+
+  @Getter("statuses")
+  private statuses: any[];
+
   public get icon(): string {
     return `el-icon-fa-${this.timeline.icon}`;
+  }
+
+  public mounted(): void {
+    this.subscribeTimeline(this.timeline.account);
   }
 
   private hasTimeline(): boolean {
