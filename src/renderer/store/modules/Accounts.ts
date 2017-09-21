@@ -1,6 +1,7 @@
 import { Authentication } from "../../../common/auth";
 import { ITokens } from "../../../common/ITokens";
 import { Account } from "../../models/Account";
+import { credentials } from "../../models/Credentials";
 
 interface IState {
   accounts: Account[];
@@ -19,9 +20,14 @@ const mutations = {
 const actions = {
   addAccount({ commit }, tokens: ITokens) {
     (async () => {
-      const account = new Account(tokens);
-      await account.fetch();
-      commit("ADD_ACCOUNT", account);
+      try {
+        const account = new Account(tokens);
+        const client = credentials.findOrCreateClient(account);
+        account.user = await client.verifyCredentials();
+        commit("ADD_ACCOUNT", account);
+      } catch (err) {
+        // ignored
+      }
     })();
   }
 };
