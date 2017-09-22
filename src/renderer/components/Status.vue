@@ -8,7 +8,7 @@
       .right
         .header
           .name
-            b {{user.name}}
+            b(v-html="name")
             small @{{user.screen_name}}
           .time
             a(:href="permalink" target="_blank")
@@ -97,6 +97,10 @@
   a {
     color: #7ac;
     text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .emoji {
@@ -126,16 +130,19 @@ export default class StatusComponent extends Vue {
   public get text(): string {
     const status = this.targetStatus();
     let text = "";
+    let urlEntities: any = null;
     if (status.extended_tweet) {
       const range = status.extended_tweet.display_text_range;
+      urlEntities = status.extended_tweet.entities.urls;
       text = status.extended_tweet.full_text.substring(range[0], range[1]);
     } else {
       text = status.full_text || status.text;
+      urlEntities = status.entities.urls;
       if (status.display_text_range) {
         text = text.substring(status.display_text_range[0], status.display_text_range[1]);
       }
     }
-    return twemoji.parse(twitter.autoLink(twitter.htmlEscape(text), { urlEntities: status.entities.urls as any, targetBlank: true })).replace("\\n", "<br />");
+    return twemoji.parse(twitter.autoLink(text, { urlEntities: urlEntities, targetBlank: true, })).replace("\\n", "<br />");
   }
 
   public get permalink(): string {
@@ -148,6 +155,10 @@ export default class StatusComponent extends Vue {
 
   public get user(): IUser {
     return this.targetStatus().user;
+  }
+
+  public get name(): string {
+    return twemoji.parse(this.user.name);
   }
 
   public get isRetweet(): boolean {
