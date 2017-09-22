@@ -72,7 +72,7 @@ export default class TimelineComponent extends Vue {
       "flex": "1 1 auto",
       "max-height": "calc(100% - 60px)",
       "overflow-y": "auto",
-      "padding": "0 5px"
+      "padding": "0 10px"
     };
   }
 

@@ -25,6 +25,9 @@
 .retweet {
   padding-left: 64px;
   color: gray;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   small {
     font-size: 70%;
@@ -92,12 +95,20 @@
     color: #7ac;
     text-decoration: none;
   }
+
+  .emoji {
+    width: 1em;
+    height: 1em;
+    padding: 0 .05em 0 .1em;
+    vertical-align: -0.1em;
+  }
 }
 </style>
 
 
 <script lang="ts">
 import * as moment from "moment";
+import * as twemoji from "twemoji";
 import * as twitter from "twitter-text";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
@@ -121,7 +132,7 @@ export default class StatusComponent extends Vue {
         text = text.substring(status.display_text_range[0], status.display_text_range[1]);
       }
     }
-    return twitter.autoLink(twitter.htmlEscape(text), { urlEntities: status.entities.urls as any });
+    return twemoji.parse(twitter.autoLink(twitter.htmlEscape(text), { urlEntities: status.entities.urls as any })).replace("\\n", "<br />");
   }
 
   public get permalink(): string {
