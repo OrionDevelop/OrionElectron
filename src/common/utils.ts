@@ -2,7 +2,7 @@ import path from "path";
 
 export function abspath(p: string): string {
   if (p.startsWith("~")) {
-    p = path.join(process.env.HOME || "", p.substring(1));
+    p = path.join(process.env.HOME || process.env.USERPROFILE || "", p.substring(1));
   }
   return p;
 }
