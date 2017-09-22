@@ -9,8 +9,8 @@ export class Timeline {
 
   public static defaultTimelines(account: Account): Timeline[] {
     const timelines = [
-      new Timeline("Home", "home", "user IN me.friends", true, 0, account),
-      new Timeline("Mentions", "at", `text contains "@${account.user.screen_name}"`, true, 1, account)
+      new Timeline("Home", "home", "true", true, 0, account),
+      new Timeline("Mentions", "at", `status.text.includes("@${account.user.screen_name}")`, true, 1, account)
     ];
     return timelines;
   }
@@ -41,6 +41,11 @@ export class Timeline {
     } else {
       return "All";
     }
+  }
+
+  // tslint:disable-next-line:ban-types
+  public filter(): Function {
+    return new Function("status", `"use strict"; return ${this.query};`);
   }
 
   public toJson(): any {

@@ -6,7 +6,7 @@
       small {{timeline.hostBy()}}
       i.last.el-icon-fa-20.el-icon-fa-ellipsis-h
     .content
-      status(v-for="status in statuses" :status="status")
+      status(v-for="status in filtered" :status="status")
 </template>
 
 <style lang="scss" scoped>
@@ -38,12 +38,12 @@ small {
 }
 </style>
 
-
 <script lang="ts">
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 import { Action, Getter, State } from "vuex-class";
 
+import { IStatus } from "../../common/twitter";
 import { Account } from "../models/Account";
 import { Timeline } from "../models/Timeline";
 import StatusComponent from "./Status.vue";
@@ -61,10 +61,14 @@ export default class TimelineComponent extends Vue {
   private subscribeTimeline: (account: Account) => void;
 
   @Getter("statuses")
-  private statuses: any[];
+  private statuses: IStatus[];
 
   public get icon(): string {
     return `el-icon-fa-${this.timeline.icon}`;
+  }
+
+  public get filtered(): IStatus[] {
+    return this.statuses.filter((w) => this.timeline.filter()(w));
   }
 
   public get bodyStyle(): any {
