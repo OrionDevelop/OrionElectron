@@ -27,7 +27,7 @@ export class TwitterClient {
     return this.handle(await this.twitter.get("account/verify_credentials", {}));
   }
 
-  public async homeTimeline(): Promise<IStatus> {
+  public async homeTimeline(): Promise<IStatus[]> {
     return this.handle(await this.twitter.get("statuses/home_timeline", {}));
   }
 

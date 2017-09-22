@@ -52,14 +52,20 @@ const mutations = {
 const actions = {
   // tslint:disable-next-line:no-shadowed-variable
   subscribeTimeline({ commit, state }: { commit: any, state: IState }, account: Account) {
-    if (state.subscribers.filter((w) => w.uuid === account.uuid).length > 0) {
-      return;
-    }
-    commit("SUBSCRIBE_TIMELINE", account);
-    const client = credentials.findOrCreateClient(account);
-    client.userStream((event) => {
-      commit("ADD_STATUS", event);
-    });
+    (async () => {
+      if (state.subscribers.filter((w) => w.uuid === account.uuid).length > 0) {
+        return;
+      }
+      commit("SUBSCRIBE_TIMELINE", account);
+      const client = credentials.findOrCreateClient(account);
+      const statuses = await client.homeTimeline();
+      for (const status of statuses.reverse()) {
+        commit("ADD_STATUS", status);
+      }
+      client.userStream((event) => {
+        commit("ADD_STATUS", event);
+      });
+    })();
   }
 };
 
