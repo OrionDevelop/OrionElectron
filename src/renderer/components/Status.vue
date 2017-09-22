@@ -11,7 +11,7 @@
             b {{user.name}}
             small @{{user.screen_name}}
           .time
-            a(:href="permalink")
+            a(:href="permalink" target="_blank")
               small {{time}}
         span(v-html="text")
 </template>
@@ -28,6 +28,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  word-break: break-all;
 
   small {
     font-size: 70%;
@@ -37,7 +38,9 @@
 .container {
   font-size: 14px;
   display: flex;
-
+  white-space: pre-wrap;
+  word-break: break-word;
+  word-wrap: break-word;
   .left {
     width: 64px;
   }
@@ -132,11 +135,11 @@ export default class StatusComponent extends Vue {
         text = text.substring(status.display_text_range[0], status.display_text_range[1]);
       }
     }
-    return twemoji.parse(twitter.autoLink(twitter.htmlEscape(text), { urlEntities: status.entities.urls as any })).replace("\\n", "<br />");
+    return twemoji.parse(twitter.autoLink(twitter.htmlEscape(text), { urlEntities: status.entities.urls as any, targetBlank: true })).replace("\\n", "<br />");
   }
 
   public get permalink(): string {
-    return `https://twitter.com/${this.targetStatus().user.screen_name}/status/${this.targetStatus().id}`;
+    return `https://twitter.com/${this.targetStatus().user.screen_name}/status/${this.targetStatus().id_str}`;
   }
 
   public get time(): string {

@@ -98,6 +98,7 @@ export interface IPlace {
 
 export interface IStatus {
   id: number;
+  id_str: string;
   contributors: IContributors[];
   coordinates: ICoordinates;
   created_at: string;

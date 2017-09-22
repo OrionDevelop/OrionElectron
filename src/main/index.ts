@@ -1,6 +1,6 @@
 "use strict";
 
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, shell } from "electron";
 import path from "path";
 
 import { Authentication } from "../common/auth";
@@ -10,7 +10,7 @@ if (process.env.NODE_ENV !== "development") {
 }
 
 let mainWindow: Electron.BrowserWindow | null;
-const url = process.env.NODE_ENV === "development" ?
+const file = process.env.NODE_ENV === "development" ?
   "http://localhost:9080" :
   `file://${__dirname}/index.html`;
 
@@ -22,9 +22,14 @@ function createWindow() {
       width: 1000
     });
 
-    mainWindow.loadURL(url);
+    mainWindow.loadURL(file);
     mainWindow.on("closed", () => {
       mainWindow = null;
+    });
+
+    mainWindow.webContents.on("new-window", (event, url) => {
+      event.preventDefault();
+      shell.openExternal(url);
     });
   });
 }
