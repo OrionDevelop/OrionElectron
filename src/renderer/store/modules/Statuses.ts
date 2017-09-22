@@ -7,6 +7,25 @@ interface IState {
   subscribers: any[];
 }
 
+function exists(statuses: IStatus[], status: IStatus): boolean {
+  if (statuses.filter((w) => w.id_str === status.id_str).length > 0) {
+    return true;
+  }
+  if (status.retweeted_status) {
+    if (statuses.filter((w) => w.id_str === status.retweeted_status.id_str).length > 0) {
+      return true;
+    }
+    return statuses.filter((w) => {
+      if (w.retweeted_status) {
+        return w.retweeted_status.id_str === status.retweeted_status.id_str;
+      } else {
+        return false;
+      }
+    }).length > 0;
+  }
+  return false;
+}
+
 const state: IState = {
   statuses: [],
   subscribers: []
@@ -20,10 +39,13 @@ const mutations = {
     w.subscribers = w.subscribers.filter((v) => v.uuid !== subscriber.uuid);
   },
   ADD_STATUS(w: IState, status: IStatus) {
+    if (w.statuses.filter((v) => exists(w.statuses, status)).length > 0) {
+      return;
+    }
     w.statuses.unshift(status);
   },
   DELETE_STATUS(w: IState, status: IStatus) {
-    w.statuses = w.statuses.filter((v) => v.id !== status.id);
+    w.statuses = w.statuses.filter((v) => v.id_str !== status.id_str);
   }
 };
 
