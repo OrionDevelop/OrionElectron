@@ -1,23 +1,38 @@
 <template lang="pug">
-  .container
-    .left
-      img.icon(:src="user.profile_image_url_https")
-    .right
-      .header
-        .name
-          b {{user.name}}
-          small @{{user.screen_name}}
-        .time
-          a(:href="permalink")
-            small {{time}}
-      span {{text}}
+  .root.yRnqoA01x6
+    .retweet(v-if="isRetweet")
+      small Retweeted by {{status.user.name}}
+    .container
+      .left
+        img.icon(:src="user.profile_image_url_https")
+      .right
+        .header
+          .name
+            b {{user.name}}
+            small @{{user.screen_name}}
+          .time
+            a(:href="permalink")
+              small {{time}}
+        span(v-html="text")
 </template>
 
 <style lang="scss" scoped>
-.container {
-  font-size: 14px;
+.root {
   padding: 5px 0px;
   padding-bottom: 15px;
+}
+
+.retweet {
+  padding-left: 64px;
+  color: gray;
+
+  small {
+    font-size: 70%;
+  }
+}
+
+.container {
+  font-size: 14px;
   display: flex;
 
   .left {
@@ -53,8 +68,12 @@
       }
 
       b+small {
-        padding-left: 2.5px;
+        padding-left: 4px;
       }
+    }
+
+    span {
+      line-height: 1.2;
     }
   }
 
@@ -66,8 +85,20 @@
 }
 </style>
 
+<style lang="scss">
+// for v-html
+.yRnqoA01x6 {
+  a {
+    color: #7ac;
+    text-decoration: none;
+  }
+}
+</style>
+
+
 <script lang="ts">
 import * as moment from "moment";
+import * as twitter from "twitter-text";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
@@ -79,28 +110,38 @@ export default class StatusComponent extends Vue {
   private status: IStatus;
 
   public get text(): string {
-    if (this.status.extended_tweet) {
-      const range = this.status.extended_tweet.display_text_range;
-      return this.status.extended_tweet.full_text.substring(range[0], range[1]);
+    const status = this.targetStatus();
+    let text = "";
+    if (status.extended_tweet) {
+      const range = status.extended_tweet.display_text_range;
+      text = status.extended_tweet.full_text.substring(range[0], range[1]);
     } else {
-      const text = this.status.full_text || this.status.text;
-      if (this.status.display_text_range) {
-        return text.substring(this.status.display_text_range[0], this.status.display_text_range[1]);
+      text = status.full_text || status.text;
+      if (status.display_text_range) {
+        text = text.substring(status.display_text_range[0], status.display_text_range[1]);
       }
-      return text;
     }
+    return twitter.autoLink(twitter.htmlEscape(text), { urlEntities: status.entities.urls as any });
   }
 
   public get permalink(): string {
-    return `https://twitter.com/${this.status.user.screen_name}/status/${this.status.id}`;
+    return `https://twitter.com/${this.targetStatus().user.screen_name}/status/${this.targetStatus().id}`;
   }
 
   public get time(): string {
-    return moment(this.status.created_at).fromNow(true);
+    return moment(this.targetStatus().created_at).fromNow(true);
   }
 
   public get user(): IUser {
-    return this.status.user;
+    return this.targetStatus().user;
+  }
+
+  public get isRetweet(): boolean {
+    return this.status.retweeted_status ? true : false;
+  }
+
+  private targetStatus(): IStatus {
+    return this.status.retweeted_status || this.status;
   }
 }
 </script>
