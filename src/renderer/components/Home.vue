@@ -92,7 +92,7 @@ export default class HomeComponent extends Vue {
       return;
     }
     this.started = false;
-    if (this.timelines.length == 0) {
+    if (this.timelines.length === 0) {
       this.restoreTimelines(this.accounts);
     }
     if (this.timelines.length === 0) {

@@ -6,8 +6,7 @@
       small {{timeline.hostBy()}}
       i.last.el-icon-fa-20.el-icon-fa-ellipsis-h
     .content
-      div(v-for="status in statuses")
-        p {{status.text}}
+      status(v-for="status in statuses" :status="status")
 </template>
 
 <style lang="scss" scoped>
@@ -47,8 +46,13 @@ import { Action, Getter, State } from "vuex-class";
 
 import { Account } from "../models/Account";
 import { Timeline } from "../models/Timeline";
+import StatusComponent from "./Status.vue";
 
-@Component
+@Component({
+  components: {
+    status: StatusComponent
+  }
+})
 export default class TimelineComponent extends Vue {
   @Prop({ default: null })
   private timeline: Timeline;
@@ -65,10 +69,10 @@ export default class TimelineComponent extends Vue {
 
   public get bodyStyle(): any {
     return {
-      flex: "1 1 auto",
+      "flex": "1 1 auto",
       "max-height": "calc(100% - 60px)",
       "overflow-y": "auto",
-      "padding": "0 20px"
+      "padding": "0 10px"
     };
   }
 

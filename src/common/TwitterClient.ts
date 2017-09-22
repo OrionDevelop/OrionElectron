@@ -33,7 +33,7 @@ export class TwitterClient {
 
   // STREAMING
   public userStream(callback: (event) => void): void {
-    const stream = this.twitter.stream("user", { stringify_friend_ids: true });
+    const stream = this.twitter.stream("user", { stringify_friend_ids: true, tweet_mode: "extended" });
     stream.on("friends", (friends) => {
       console.log(friends); // tslint:disable-line:no-console
     });
