@@ -43,6 +43,9 @@ const mutations = {
       return;
     }
     w.statuses.unshift(status);
+    if (w.statuses.length >= 500) {
+      w.statuses.pop();
+    }
   },
   DELETE_STATUS(w: IState, status: IStatus) {
     w.statuses = w.statuses.filter((v) => v.id_str !== status.id_str);
