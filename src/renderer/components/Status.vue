@@ -13,6 +13,9 @@
           .time
             a(:href="permalink" target="_blank")
               small {{time}}
+        div.mention(v-if="hasMentions")
+          small Replying to 
+            a(href="" v-for="mention in targetStatus().entities.user_mentions") @{{mention.screen_name}}
         div.text(v-html="text")
         div.media(v-if="hasMedia")
           div(:class="mediaClass")
@@ -78,6 +81,17 @@
 
       b+small {
         padding-left: 4px;
+      }
+    }
+
+    .mention {
+      color: slategrey;
+      line-height: 1.0;
+      margin-top: -2px;
+      margin-bottom: 2px;
+
+      a+a {
+        margin-right: 1px;
       }
     }
 
@@ -283,6 +297,10 @@ export default class StatusComponent extends Vue {
 
   public asThumb(media: IMediaEntity): string {
     return `${media.media_url_https}:small`;
+  }
+
+  public get hasMentions(): boolean {
+    return this.targetStatus().entities.user_mentions.length > 0;
   }
 
   private targetStatus(): IStatus {
