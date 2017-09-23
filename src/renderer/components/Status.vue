@@ -13,7 +13,10 @@
           .time
             a(:href="permalink" target="_blank")
               small {{time}}
-        span(v-html="text")
+        div.text(v-html="text")
+        div.media(v-if="hasMedia")
+          div(:class="mediaClass")
+            img(:src="asThumb(media)" v-for="media in medias")
 </template>
 
 <style lang="scss" scoped>
@@ -78,8 +81,97 @@
       }
     }
 
-    span {
+    .text {
       line-height: 1.2;
+    }
+
+    .media {
+      margin-top: 5px;
+
+      img {
+        overflow: hidden;
+        border-radius: 4px;
+        object-fit: cover;
+      }
+
+      .media-grid-1 {
+        img {
+          height: 130px;
+          width: 220px;
+        }
+      }
+
+      .media-grid-2 {
+        img {
+          height: 130px;
+          width: 108px;
+
+          &:nth-child(1) {
+            margin-right: 2px;
+          }
+
+          &:nth-child(2) {
+            margin-left: 2px;
+          }
+        }
+      }
+
+      .media-grid-3 {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        max-height: 130px;
+
+        img {
+          &:nth-child(1) {
+            height: 130px;
+            margin-right: 2px;
+            width: 108px;
+          }
+
+          &:nth-child(2),
+          &:nth-child(3) {
+            height: 63px;
+            margin-left: 2px;
+            width: 108px;
+          }
+
+          &:nth-child(2) {
+            margin-bottom: 2px;
+          }
+
+          &:nth-child(3) {
+            margin-top: 2px;
+          }
+        }
+      }
+
+      .media-grid-4 {
+        img {
+          height: 64px;
+          width: 108px;
+
+          &:nth-child(1) {
+            margin-right: 2px;
+            margin-bottom: 1px;
+          }
+
+          &:nth-child(2) {
+            margin-bottom: 1px;
+            margin-left: 2px;
+          }
+
+          &:nth-child(3) {
+            margin-right: 2px;
+            margin-top: 1px;
+          }
+
+          &:nth-child(4) {
+            margin-left: 2px;
+            margin-top: 1px;
+          }
+        }
+      }
     }
   }
 
@@ -120,7 +212,7 @@ import * as twitter from "twitter-text";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
-import { IStatus, IUser } from "../../common/twitter";
+import { IMediaEntity, IStatus, IUser } from "../../common/twitter";
 
 @Component
 export default class StatusComponent extends Vue {
@@ -163,6 +255,28 @@ export default class StatusComponent extends Vue {
 
   public get isRetweet(): boolean {
     return this.status.retweeted_status ? true : false;
+  }
+
+  public get hasMedia(): boolean {
+    return this.medias.length > 0;
+  }
+
+  public get medias(): IMediaEntity[] {
+    let medias: IMediaEntity[] = [];
+    if (this.targetStatus().extended_entities && this.targetStatus().extended_entities.media) {
+      medias = medias.concat(this.targetStatus().extended_entities.media);
+    } else if (this.targetStatus().entities.media) {
+      medias = medias.concat(this.targetStatus().entities.media);
+    }
+    return medias;
+  }
+
+  public get mediaClass(): string {
+    return `media-grid-${this.medias.length}`;
+  }
+
+  public asThumb(media: IMediaEntity): string {
+    return `${media.media_url_https}:small`;
   }
 
   private targetStatus(): IStatus {
