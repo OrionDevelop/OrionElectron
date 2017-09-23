@@ -43,8 +43,10 @@ const mutations = {
       return;
     }
     w.statuses.unshift(status);
-    if (w.statuses.length >= 500) {
-      w.statuses.pop();
+    if (w.statuses.length >= 350) {
+      for (let i = 350; i < w.statuses.length; i++) {
+        w.statuses.pop();
+      }
     }
   },
   DELETE_STATUS(w: IState, status: IStatus) {
