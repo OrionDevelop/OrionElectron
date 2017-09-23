@@ -10,6 +10,7 @@
           .name
             b(v-html="name")
             small @{{user.screen_name}}
+          i.lock.el-icon-fa-lock(v-if="user.protected")
           .time
             a(:href="permalink" target="_blank")
               small {{time}}
@@ -67,11 +68,20 @@
         white-space: nowrap;
       }
 
+      .lock {
+        color: gray;
+        margin-right: 5px;
+      }
+
       .time {
         flex-shrink: 0;
 
         a {
           text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
 
