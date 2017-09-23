@@ -266,7 +266,10 @@ export default class StatusComponent extends Vue {
 
   public get medias(): IMediaEntity[] {
     let medias: IMediaEntity[] = [];
-    if (this.targetStatus().extended_entities && this.targetStatus().extended_entities.media) {
+    // ???
+    if (this.targetStatus().extended_tweet && this.targetStatus().extended_tweet.entities) {
+      medias = medias.concat(this.targetStatus().extended_tweet.entities.media);
+    } else if (this.targetStatus().extended_entities && this.targetStatus().extended_entities.media) {
       medias = medias.concat(this.targetStatus().extended_entities.media);
     } else if (this.targetStatus().entities.media) {
       medias = medias.concat(this.targetStatus().entities.media);
