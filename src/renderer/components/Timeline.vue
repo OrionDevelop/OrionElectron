@@ -68,7 +68,7 @@ export default class TimelineComponent extends Vue {
   }
 
   public get filtered(): IStatus[] {
-    return this.statuses.filter((w) => this.timeline.filter()(w));
+    return this.statuses.filter((w) => this.timeline.filter(w));
   }
 
   public get bodyStyle(): any {

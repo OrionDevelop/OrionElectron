@@ -1,5 +1,7 @@
+import { IStatus } from "../../common/twitter";
 import { uuid } from "../../common/utils";
 import { Account } from "./Account";
+import { MentionsFilter } from "./filters/mentions";
 
 export class Timeline {
   public static fromJson(json: any, accounts: Account[]): Timeline {
@@ -10,7 +12,7 @@ export class Timeline {
   public static defaultTimelines(account: Account): Timeline[] {
     const timelines = [
       new Timeline("Home", "home", "true", true, 0, account),
-      new Timeline("Mentions", "at", `status.text.includes("@${account.user.screen_name}")`, true, 1, account)
+      new Timeline("Mentions", "at", `filters["mentions"].run(status, ["${account.user.screen_name}"])`, true, 1, account)
     ];
     return timelines;
   }
@@ -44,8 +46,15 @@ export class Timeline {
   }
 
   // tslint:disable-next-line:ban-types
-  public filter(): Function {
-    return new Function("status", `"use strict"; return ${this.query};`);
+  public filter(status: IStatus): boolean {
+    const filters = {
+      mentions: new MentionsFilter()
+    };
+    const js = `
+    "use strict";
+    return ${this.query};
+    `;
+    return new Function("status", "filters", js)(status, filters);
   }
 
   public toJson(): any {
