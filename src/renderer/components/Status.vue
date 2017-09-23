@@ -16,7 +16,7 @@
               small {{time}}
         div.mention(v-if="hasMentions")
           small Replying to 
-            a(href="" v-for="mention in targetStatus().entities.user_mentions") @{{mention.screen_name}}
+            a(href="#" v-for="mention in targetStatus().entities.user_mentions") @{{mention.screen_name}}
         div.text(v-html="text")
         div.media(v-if="hasMedia")
           div(:class="mediaClass")
@@ -101,7 +101,7 @@
       margin-bottom: 2px;
 
       a+a {
-        margin-right: 1px;
+        margin-left: 2px;
       }
     }
 
@@ -310,6 +310,9 @@ export default class StatusComponent extends Vue {
   }
 
   public get hasMentions(): boolean {
+    if (this.targetStatus().in_reply_to_status_id === null) {
+      return false;
+    }
     return this.targetStatus().entities.user_mentions.length > 0;
   }
 

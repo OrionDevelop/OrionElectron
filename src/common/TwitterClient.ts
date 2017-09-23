@@ -28,7 +28,7 @@ export class TwitterClient {
   }
 
   public async homeTimeline(): Promise<IStatus[]> {
-    return this.handle(await this.twitter.get("statuses/home_timeline", {}));
+    return this.handle(await this.twitter.get("statuses/home_timeline", { tweet_mode: "extended" }));
   }
 
   // STREAMING
