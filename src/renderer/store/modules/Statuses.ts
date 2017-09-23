@@ -3,6 +3,7 @@ import { Account } from "../../models/Account";
 import { credentials } from "../../models/Credentials";
 
 interface IState {
+  friends: number[];
   statuses: IStatus[];
   subscribers: any[];
 }
@@ -27,6 +28,7 @@ function exists(statuses: IStatus[], status: IStatus): boolean {
 }
 
 const state: IState = {
+  friends: [],
   statuses: [],
   subscribers: []
 };
@@ -37,6 +39,12 @@ const mutations = {
   },
   UNSUBSCRIBE_TIMELINE(w: IState, subscriber: Account) {
     w.subscribers = w.subscribers.filter((v) => v.uuid !== subscriber.uuid);
+  },
+  ADD_FRIEND(w: IState, id: number) {
+    if (w.friends.filter((v) => v === id).length > 0) {
+      return;
+    }
+    w.friends.push(id);
   },
   ADD_STATUS(w: IState, status: IStatus) {
     if (w.statuses.filter((v) => exists(w.statuses, status)).length > 0) {
@@ -62,13 +70,24 @@ const actions = {
         return;
       }
       commit("SUBSCRIBE_TIMELINE", account);
+      commit("ADD_FRIEND", account.user.id);
       const client = credentials.findOrCreateClient(account);
       const statuses = await client.homeTimeline();
       for (const status of statuses.reverse()) {
         commit("ADD_STATUS", status);
       }
-      client.userStream((event) => {
-        commit("ADD_STATUS", event);
+      client.userStream((event: string, data: any) => {
+        switch (event) {
+          case "friends":
+            for (const id of data) {
+              commit("ADD_FRIEND", id);
+            }
+            break;
+
+          case "tweet":
+            commit("ADD_STATUS", data);
+            break;
+        }
       });
     })();
   }

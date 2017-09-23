@@ -152,6 +152,7 @@ export interface IUser {
   favourites_count: number;
   follow_request_sent?: boolean;
   followers_count: number;
+  following: boolean;
   friends_count: number;
   has_extended_profile?: boolean;
   geo_enabled: boolean;

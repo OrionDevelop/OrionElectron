@@ -63,12 +63,15 @@ export default class TimelineComponent extends Vue {
   @Getter("statuses")
   private statuses: IStatus[];
 
+  @State((state: any) => state.Statuses.friends)
+  private friends: number[];
+
   public get icon(): string {
     return `el-icon-fa-${this.timeline.icon}`;
   }
 
   public get filtered(): IStatus[] {
-    return this.statuses.filter((w) => this.timeline.filter(w));
+    return this.statuses.filter((w) => this.timeline.filter(w, this.friends));
   }
 
   public get bodyStyle(): any {

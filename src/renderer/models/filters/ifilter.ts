@@ -1,11 +1,10 @@
-import { IStatus } from "../../../common/twitter";
+import { IStatus, IUser } from "../../../common/twitter";
 
 export interface IFilter {
-  parameters: FilterParameters[];
-  run(status: IStatus, params: string[]): boolean;
+  run(status: IStatus, params: IFilterParams): boolean;
 }
 
-export enum FilterParameters {
-  // Pass timeline owner's screen_name.
-  ScreenName
+export interface IFilterParams {
+  friends: number[];
+  me: IUser;
 }

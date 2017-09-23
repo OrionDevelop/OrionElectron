@@ -11,7 +11,6 @@ import {
 
 export class TwitterClient {
   private twitter: any;
-  private friends: Set<number>;
 
   public constructor(tokens: ITokens) {
     this.twitter = new Twit({
@@ -20,7 +19,6 @@ export class TwitterClient {
       consumer_key: TWITTER_CONSUMER_KEY,
       consumer_secret: TWITTER_CONSUMER_SECRET
     });
-    this.friends = new Set<number>();
   }
 
   public async verifyCredentials(): Promise<IUser> {
@@ -32,13 +30,13 @@ export class TwitterClient {
   }
 
   // STREAMING
-  public userStream(callback: (event) => void): void {
+  public userStream(callback: (event: string, data: any) => void): void {
     const stream = this.twitter.stream("user", { stringify_friend_ids: true, tweet_mode: "extended" });
     stream.on("friends", (friends) => {
-      console.log(friends); // tslint:disable-line:no-console
+      callback("friends", friends.friends_str.map((w) => parseInt(w, 10)));
     });
     stream.on("tweet", (tweet) => {
-      callback(tweet);
+      callback("tweet", tweet);
     });
   }
 

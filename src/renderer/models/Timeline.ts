@@ -1,7 +1,7 @@
 import { IStatus } from "../../common/twitter";
 import { uuid } from "../../common/utils";
 import { Account } from "./Account";
-import { MentionsFilter } from "./filters/mentions";
+import { HomeFilter, IFilterParams, MentionsFilter } from "./filters";
 
 export class Timeline {
   public static fromJson(json: any, accounts: Account[]): Timeline {
@@ -11,8 +11,8 @@ export class Timeline {
 
   public static defaultTimelines(account: Account): Timeline[] {
     const timelines = [
-      new Timeline("Home", "home", "true", true, 0, account),
-      new Timeline("Mentions", "at", `filters["mentions"].run(status, ["${account.user.screen_name}"])`, true, 1, account)
+      new Timeline("Home", "home", `filters["home"].run(status, params)`, true, 0, account),
+      new Timeline("Mentions", "at", `filters["mentions"].run(status, params)`, true, 1, account)
     ];
     return timelines;
   }
@@ -46,15 +46,20 @@ export class Timeline {
   }
 
   // tslint:disable-next-line:ban-types
-  public filter(status: IStatus): boolean {
+  public filter(status: IStatus, friends: number[]): boolean {
     const filters = {
+      home: new HomeFilter(),
       mentions: new MentionsFilter()
     };
+    const params = {
+      friends,
+      me: this.account.user,
+    } as IFilterParams;
     const js = `
     "use strict";
     return ${this.query};
     `;
-    return new Function("status", "filters", js)(status, filters);
+    return new Function("status", "filters", "params", js)(status, filters, params);
   }
 
   public toJson(): any {
