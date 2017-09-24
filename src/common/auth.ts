@@ -54,7 +54,8 @@ export class Authentication {
           modal: true,
           parent,
           webPreferences: {
-            nodeIntegration: false
+            nodeIntegration: false,
+            sandbox: true
           },
           width: 810
         });
