@@ -29,6 +29,10 @@ export class TwitterClient {
     return this.handle(await this.twitter.get("statuses/home_timeline", { tweet_mode: "extended" }));
   }
 
+  public async mentions(): Promise<IStatus[]> {
+    return this.handle(await this.twitter.get("statuses/mentions_timeline", { tweet_mode: "extended" }));
+  }
+
   // STREAMING
   public userStream(callback: (event: string, data: any) => void): void {
     const stream = this.twitter.stream("user", { stringify_friend_ids: true, tweet_mode: "extended" });

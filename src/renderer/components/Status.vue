@@ -258,9 +258,11 @@ export default class StatusComponent extends Vue {
         text = text.substring(status.display_text_range[0], status.display_text_range[1]);
       }
     }
-    this.medias.forEach(media => {
-      text = text.replace(media.url, "");
-    });
+    if (this.hasMedia) {
+      this.medias.forEach(media => {
+        text = text.replace(media.url, "");
+      });
+    }
     return twemoji.parse(twitter.autoLink(`${text}`, { urlEntities: urlEntities, targetBlank: true, })).replace("\\n", "<br />");
   }
 

@@ -72,10 +72,8 @@ const actions = {
       commit("SUBSCRIBE_TIMELINE", account);
       commit("ADD_FRIEND", account.user.id);
       const client = credentials.findOrCreateClient(account);
-      const statuses = await client.homeTimeline();
-      for (const status of statuses.reverse()) {
-        commit("ADD_STATUS", status);
-      }
+      (await client.homeTimeline()).reverse().forEach((w) => commit("ADD_STATUS", w));
+      (await client.mentions()).reverse().forEach((w) => commit("ADD_STATUS", w));
       client.userStream((event: string, data: any) => {
         switch (event) {
           case "friends":
