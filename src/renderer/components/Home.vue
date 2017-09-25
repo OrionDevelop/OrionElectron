@@ -4,6 +4,7 @@
     .contents
       .container
         timeline.column(v-for="timeline in timelines" :timeline="timeline")
+    media-view
 </template>
 
 <style lang="scss" scoped>
@@ -40,12 +41,14 @@ import { Authentication } from "../../common/auth";
 import { ITokens } from "../../common/ITokens";
 import { Account } from "../models/Account";
 import { Timeline } from "../models/Timeline";
+import MediaViewComponent from "./MediaView.vue";
 import Sidearea from "./Sidearea.vue";
 import TimelineComponent from "./Timeline.vue";
 
 
 @Component({
   components: {
+    'media-view': MediaViewComponent,
     sidearea: Sidearea,
     timeline: TimelineComponent,
   }
