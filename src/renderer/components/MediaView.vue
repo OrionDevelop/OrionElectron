@@ -1,5 +1,5 @@
 <template lang="pug">
-  el-dialog.trans(:visible="isVisible" :before-close="onClose" :show-close="false")
+  el-dialog.trans(:visible="isVisible" :before-close="onClose" :show-close="false" top="5%")
     el-carousel(:initial-index="index" indicator-position="outside" :autoplay="false" :height="height")
       el-carousel-item(v-for="(media, w) in medias")
         .centering
@@ -58,10 +58,10 @@ export default class MediaViewComponent extends Vue {
         }
       }
     }
-    if (window.innerHeight * 0.85 - 140 > height) {
+    if (window.innerHeight * 0.95 - 140 > height) {
       return `${height}px`;
     } else {
-      return `${window.innerHeight * 0.85 - 140 - 50}px`;
+      return `${window.innerHeight * 0.95 - 140 - 50}px`;
     }
   }
 
@@ -71,10 +71,10 @@ export default class MediaViewComponent extends Vue {
 
   public styleFor(media: IMediaEntity): any {
     let style = {};
-    if (window.innerHeight * 0.85 - 140 > media.sizes.large.h) {
+    if (window.innerHeight * 0.95 - 140 > media.sizes.large.h) {
       style["max-height"] = `${media.sizes.large.h}px`;
     } else {
-      style["max-height"] = `${window.innerHeight * 0.85 - 200}px`;
+      style["max-height"] = `${window.innerHeight * 0.95 - 200}px`;
     }
     if (window.innerWidth > media.sizes.large.w) {
       style["max-width"] = `${media.sizes.large.w}px`;
