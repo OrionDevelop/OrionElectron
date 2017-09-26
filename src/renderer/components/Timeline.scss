@@ -1,0 +1,26 @@
+.box-card {
+  width: 320px;
+}
+
+.header {
+  display: flex;
+  flex-flow: row;
+  align-items: baseline;
+
+  .last {
+    margin-left: auto;
+  }
+}
+
+i {
+  padding-right: 5px;
+  font-size: 80%;
+}
+
+span + small {
+  margin-left: 5px;
+}
+
+small {
+  color: gray;
+}

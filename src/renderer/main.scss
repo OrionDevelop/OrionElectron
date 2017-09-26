@@ -1,4 +1,6 @@
-html, body, #app {
+html,
+body,
+#app {
   height: 100vh;
   max-height: 100vh;
   max-width: 100vw;
@@ -13,26 +15,29 @@ body {
   margin: 0;
 }
 
-
 $fa-css-prefix: "el-icon-fa";
 $fa-font-path: "~font-awesome/fonts";
+
 @import "~font-awesome/scss/font-awesome";
 
 // Font Awesome
-[class^="el-icon-fa"], [class*="el-icon-fa"] {
+[class^="el-icon-fa"],
+[class*="el-icon-fa"] {
   display: inline-block;
-  font: normal normal normal 14px/1 FontAwesome!important;
+  font: normal normal normal 14px/1 FontAwesome !important;
   font-size: inherit;
   text-rendering: auto;
 }
 
+// stylelint-disable-next-line
 @for $i from 16 through 30 {
   .el-icon-fa-#{$i} {
-    font: normal normal normal ($i * 1px)/1 FontAwesome!important;  
+    font: normal normal normal ($i * 1px)/1 FontAwesome !important;
   }
 }
+
 .el-icon-fa-lg {
-  font: normal normal normal 16px/1 FontAwesome!important;  
+  font: normal normal normal 16px/1 FontAwesome !important;
 }
 
 .fix-for-icon {
@@ -53,7 +58,7 @@ $fa-font-path: "~font-awesome/fonts";
   background-clip: padding-box;
   border-radius: 7px;
   background-color: rgba(0, 0, 0, 0.15);
-  box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05), inset 1px 1px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: inset -1px -1px 0 rgba(0, 0, 0, 0.05), inset 1px 1px 0 rgba(0, 0, 0, 0.05);
 }
 
 ::-webkit-scrollbar-button {
