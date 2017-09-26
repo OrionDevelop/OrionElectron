@@ -5,6 +5,7 @@ import {
 } from "./constants";
 import { ITokens } from "./ITokens";
 import {
+  ICursored,
   IStatus,
   IUser
 } from "./twitter";
@@ -31,6 +32,14 @@ export class TwitterClient {
 
   public async mentions(): Promise<IStatus[]> {
     return this.handle(await this.twitter.get("statuses/mentions_timeline", { tweet_mode: "extended" }));
+  }
+
+  public async blockIds(cursor: number): Promise<ICursored<string>> {
+    return this.handle(await this.twitter.get("blocks/ids", { cursor, stringify_ids: true }));
+  }
+
+  public async muteIds(cursor: number): Promise<ICursored<string>> {
+    return this.handle(await this.twitter.get("mutes/users/ids", { cursor, stringify_ids: true }));
   }
 
   // STREAMING

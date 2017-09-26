@@ -1,7 +1,21 @@
 import { Authentication } from "../../../common/auth";
 import { ITokens } from "../../../common/ITokens";
+import { ICursored } from "../../../common/twitter";
 import { Account } from "../../models/Account";
 import { credentials } from "../../models/Credentials";
+
+async function fetchAll(commit, mutation: string, caller: (cursor: number) => Promise<ICursored<string>>): Promise<void> {
+  let cursor = -1;
+  while (true) {
+    const cursored = await caller(cursor);
+    commit(mutation, cursored.ids);
+    if (cursored.next_cursor !== 0) {
+      cursor = cursored.next_cursor;
+    } else {
+      return;
+    }
+  }
+}
 
 interface IState {
   accounts: Account[];
@@ -25,6 +39,9 @@ const actions = {
         const client = credentials.findOrCreateClient(account);
         account.user = await client.verifyCredentials();
         commit("ADD_ACCOUNT", account);
+        // to Statuses.blocks/mutes
+        await fetchAll(commit, "ADD_BLOCKS", (cursor: number) => client.blockIds(cursor));
+        await fetchAll(commit, "ADD_MUTES", (cursor: number) => client.muteIds(cursor));
       } catch (err) {
         // ignored
       }

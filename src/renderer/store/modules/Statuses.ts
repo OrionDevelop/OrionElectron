@@ -3,7 +3,9 @@ import { Account } from "../../models/Account";
 import { credentials } from "../../models/Credentials";
 
 interface IState {
-  friends: number[];
+  blocks: string[];
+  friends: string[];
+  mutes: string[];
   statuses: IStatus[];
   subscribers: any[];
 }
@@ -27,8 +29,27 @@ function exists(statuses: IStatus[], status: IStatus): boolean {
   return false;
 }
 
+function blocking(currentState: IState, status: IStatus): boolean {
+  // Tweet
+  if (status.user.id_str) {
+    const id = status.user.id_str;
+    if (currentState.blocks.includes(id) || currentState.mutes.includes(id)) {
+      return true;
+    }
+  }
+  if (status.retweeted_status && status.retweeted_status.user.id_str) {
+    const id = status.retweeted_status.user.id_str;
+    if (currentState.blocks.includes(id) || currentState.mutes.includes(id)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 const state: IState = {
+  blocks: [],
   friends: [],
+  mutes: [],
   statuses: [],
   subscribers: []
 };
@@ -40,14 +61,41 @@ const mutations = {
   UNSUBSCRIBE_TIMELINE(w: IState, subscriber: Account) {
     w.subscribers = w.subscribers.filter((v) => v.uuid !== subscriber.uuid);
   },
-  ADD_FRIEND(w: IState, id: number) {
-    if (w.friends.filter((v) => v === id).length > 0) {
+  ADD_FRIEND(w: IState, id: string) {
+    if (w.friends.includes(id)) {
       return;
     }
     w.friends.push(id);
   },
+  ADD_FRIENDS(w: IState, ids: string[]) {
+    const filtered = ids.filter((v) => !w.friends.includes(v));
+    w.friends.push(...filtered);
+  },
+  ADD_BLOCK(w: IState, id: string) {
+    if (w.blocks.includes(id)) {
+      return;
+    }
+    w.blocks.push(id);
+  },
+  ADD_BLOCKS(w: IState, ids: string[]) {
+    const filtered = ids.filter((v) => !w.blocks.includes(v));
+    w.blocks.push(...filtered);
+  },
+  ADD_MUTE(w: IState, id: string) {
+    if (w.mutes.includes(id)) {
+      return;
+    }
+    w.mutes.push(id);
+  },
+  ADD_MUTES(w: IState, ids: string[]) {
+    const filtered = ids.filter((v) => !w.mutes.includes(v));
+    w.mutes.push(...filtered);
+  },
   ADD_STATUS(w: IState, status: IStatus) {
     if (w.statuses.filter((v) => exists(w.statuses, status)).length > 0) {
+      return;
+    }
+    if (blocking(w, status)) {
       return;
     }
     w.statuses.unshift(status);
@@ -56,6 +104,18 @@ const mutations = {
         w.statuses.pop();
       }
     }
+  },
+  ADD_STATUSES(w: IState, statuses: IStatus[]) {
+    const filtered = statuses.filter((v) => {
+      if (w.statuses.filter((x) => x.id_str === v.id_str).length > 0) {
+        return false;
+      }
+      if (blocking(w, v)) {
+        return false;
+      }
+      return true;
+    });
+    w.statuses.unshift(...filtered);
   },
   DELETE_STATUS(w: IState, status: IStatus) {
     w.statuses = w.statuses.filter((v) => v.id_str !== status.id_str);
@@ -72,14 +132,12 @@ const actions = {
       commit("SUBSCRIBE_TIMELINE", account);
       commit("ADD_FRIEND", account.user.id);
       const client = credentials.findOrCreateClient(account);
-      (await client.homeTimeline()).reverse().forEach((w) => commit("ADD_STATUS", w));
-      (await client.mentions()).reverse().forEach((w) => commit("ADD_STATUS", w));
+      commit("ADD_STATUSES", (await client.homeTimeline()).reverse());
+      commit("ADD_STATUSES", (await client.mentions()).reverse());
       client.userStream((event: string, data: any) => {
         switch (event) {
           case "friends":
-            for (const id of data) {
-              commit("ADD_FRIEND", id);
-            }
+            commit("ADD_FRIENDS", data);
             break;
 
           case "tweet":

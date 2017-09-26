@@ -25,6 +25,12 @@ export interface ICoordinates {
   type: string;
 }
 
+export interface ICursored<T> {
+  next_cursor: number;
+  previous_cursor: number;
+  ids: T[];
+}
+
 export interface IDirectMessage {
   id: number;
   sender: IUser;
@@ -157,6 +163,7 @@ export interface IUser {
   has_extended_profile?: boolean;
   geo_enabled: boolean;
   id?: number;
+  id_str?: string;
   is_translator: boolean;
   is_translation_enabled: boolean;
   lang: string;
