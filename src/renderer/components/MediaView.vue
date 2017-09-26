@@ -1,12 +1,14 @@
 <template lang="pug">
-  el-dialog.trans(:visible="isVisible" :before-close="onClose" :show-close="false" top="5%")
+  el-dialog.trans(:visible="isVisible" :before-close="onClose" custom-class="mediaview-trans" :show-close="true" size="full")
     template(v-if="type === 'photo'")
       el-carousel(:initial-index="index" indicator-position="outside" :autoplay="false" :height="height")
         el-carousel-item(v-for="(media, w) in medias")
           .centering
             img(:src="`${media.media_url_https}:large`" v-bind:style="styleFor(media)")
     template(v-else-if="type === 'video'")
-      video(:src="medias[0].video_info.variants[1].url" controls)
+      video(:src="medias[0].video_info.variants[1].url" controls autoplay)
+    template(v-else-if="type === 'animated_gif'")
+      video(:src="medias[0].video_info.variants[0].url" controls autoplay)
 </template>
 
 <style lang="scss" scoped>
@@ -24,6 +26,13 @@ video {
   width: 100%;
 }
 </style>
+
+<style lang="scss">
+.mediaview-trans {
+  background-color: transparent;
+}
+</style>
+
 
 <script lang="ts">
 import Vue from "vue";
