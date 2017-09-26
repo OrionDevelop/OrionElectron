@@ -1,9 +1,12 @@
 <template lang="pug">
   el-dialog.trans(:visible="isVisible" :before-close="onClose" :show-close="false" top="5%")
-    el-carousel(:initial-index="index" indicator-position="outside" :autoplay="false" :height="height")
-      el-carousel-item(v-for="(media, w) in medias")
-        .centering
-          img(:src="`${media.media_url_https}:large`" v-bind:style="styleFor(media)")
+    template(v-if="type === 'photo'")
+      el-carousel(:initial-index="index" indicator-position="outside" :autoplay="false" :height="height")
+        el-carousel-item(v-for="(media, w) in medias")
+          .centering
+            img(:src="`${media.media_url_https}:large`" v-bind:style="styleFor(media)")
+    template(v-else-if="type === 'video'")
+      video(:src="medias[0].video_info.variants[1].url" controls)
 </template>
 
 <style lang="scss" scoped>
@@ -14,7 +17,8 @@
   justify-content: center;
 }
 
-img {
+img,
+video {
   height: auto;
   object-fit: contain;
   width: 100%;
@@ -44,6 +48,13 @@ export default class MediaViewComponent extends Vue {
 
   public get medias(): IMediaEntity[] {
     return this.params.medias;
+  }
+
+  public get type(): string {
+    if (this.params.medias.length > 0) {
+      return this.params.medias[0].type;
+    }
+    return "";
   }
 
   public get height(): string {
