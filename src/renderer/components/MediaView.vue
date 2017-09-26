@@ -4,7 +4,7 @@
       .viewer-child
         .centering(@click.self="onClose")
           div(:style="sizeFor" @click.self="onClose")
-            el-carousel(:initial-index="index" indicator-position="outside" :autoplay="false" :height="justHeight()")
+            el-carousel(:initial-index="index" indicator-position="outside" :autoplay="false" :height="justHeight")
                 el-carousel-item(v-for="(media, w) in medias")
                   .centering
                     img(:src="`${media.media_url_https}:large`" :style="styleFor(media)")
