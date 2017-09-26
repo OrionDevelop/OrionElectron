@@ -210,7 +210,7 @@ export default class StatusComponent extends Vue {
     } else if (this.targetStatus().entities.media) {
       medias = medias.concat(this.targetStatus().entities.media);
     }
-    return medias;
+    return medias.filter((w) => w !== undefined);
   }
 
   public get hasMentions(): boolean {
