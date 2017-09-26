@@ -22,3 +22,15 @@ export function uuid(): string {
   }
   return chars.join("");
 }
+
+// Convert "Tue Sep 26 15:53:42 +0000 2017" to ISO formatted date.
+export function convertToISOFormat(date: string): string {
+  const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dev"];
+  const regex = /\w{3} \w{3} \d{2} \d{2}:\d{2}:\d{2} (\+|-)\d{4} \d{4}/;
+  if (date.match(regex)) {
+    const parts = date.split(" ");
+    // yyyy-MM-ddTHH:mm:ss
+    return `${parts[5]}-${("0" + (month.indexOf(parts[1]) + 1)).slice(-2)}-${parts[2]}T${parts[3]}${parts[4]}`;
+  }
+  return "";
+}

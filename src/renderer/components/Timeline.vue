@@ -6,7 +6,7 @@
       small {{timeline.hostBy()}}
       i.last.el-icon-fa-20.el-icon-fa-ellipsis-h
     .content
-      status(v-for="status in filtered" :status="status")
+      status(v-for="status in filtered" :status="status" :key="status.id_str")
 </template>
 
 <style lang="scss" src="./Timeline.scss" scoped></style>

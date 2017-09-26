@@ -4,11 +4,7 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: "orion"
-};
-</script>
+<script lang="ts" src="./App.ts"></script>
 
 <style>
 /* CSS */

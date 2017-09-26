@@ -5,7 +5,7 @@
         i.el-icon-fa-lg.el-icon-fa-list
       el-menu-item-group
         span(slot="title") TIMELINES
-        el-menu-item(v-for="(timeline, index) in timelines" :index="indexize(index)")
+        el-menu-item(v-for="(timeline, index) in timelines" :key="timeline.uuid" :index="indexize(index)")
           span {{timeline.name}}
           small {{timeline.hostBy()}}
     .bottom-wrap

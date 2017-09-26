@@ -3,7 +3,7 @@
     sidearea(:account="mainAccount" :timelines="timelines")
     .contents
       .container
-        timeline.column(v-for="timeline in timelines" :timeline="timeline")
+        timeline.column(v-for="timeline in timelines" :timeline="timeline" :key="timeline.uuid")
     media-view
 </template>
 

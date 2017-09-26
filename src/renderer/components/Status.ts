@@ -5,6 +5,7 @@ import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
 import { IMediaEntity, IStatus, IUser } from "../../common/twitter";
+import { convertToISOFormat } from "../../common/utils";
 import MediaComponent from "./status/Media.vue";
 
 @Component({
@@ -44,7 +45,7 @@ export default class StatusComponent extends Vue {
   }
 
   public get time(): string {
-    return moment(this.targetStatus().created_at).fromNow(true);
+    return moment(convertToISOFormat(this.targetStatus().created_at)).fromNow(true);
   }
 
   public get user(): IUser {
