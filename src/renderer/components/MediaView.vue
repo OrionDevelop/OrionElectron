@@ -2,8 +2,8 @@
   el-dialog.trans(:visible="isVisible" :before-close="onClose" custom-class="mediaview-trans" :show-close="true" size="full")
     template(v-if="type === 'photo'")
       .viewer-child
-        .centering
-          div(:style="sizeFor()")
+        .centering(@click.self="onClose")
+          div(:style="sizeFor()" @click.self="onClose")
             el-carousel(:initial-index="index" indicator-position="outside" :autoplay="false" :height="justHeight()")
                 el-carousel-item(v-for="(media, w) in medias")
                   .centering
