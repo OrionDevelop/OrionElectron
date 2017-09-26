@@ -1,17 +1,26 @@
 <template lang="pug">
   el-dialog.trans(:visible="isVisible" :before-close="onClose" custom-class="mediaview-trans" :show-close="true" size="full")
     template(v-if="type === 'photo'")
-      el-carousel(:initial-index="index" indicator-position="outside" :autoplay="false" :height="height")
-        el-carousel-item(v-for="(media, w) in medias")
-          .centering
-            img(:src="`${media.media_url_https}:large`" v-bind:style="styleFor(media)")
-    template(v-else-if="type === 'video'")
-      video(:src="medias[0].video_info.variants[1].url" controls autoplay)
-    template(v-else-if="type === 'animated_gif'")
-      video(:src="medias[0].video_info.variants[0].url" controls autoplay)
+      .viewer-child
+        .centering
+          div(:style="sizeFor()")
+            el-carousel(:initial-index="index" indicator-position="outside" :autoplay="false" :height="justHeight()")
+                el-carousel-item(v-for="(media, w) in medias")
+                  .centering
+                    img(:src="`${media.media_url_https}:large`" :style="styleFor(media)")
+    template(v-else-if="type === 'video' || type === 'animated_gif'")
+      .viewer-child
+        .centering
+          video(:src="videoSource" :style="videoStyle" autoplay controls)
 </template>
 
 <style lang="scss" scoped>
+.viewer-child {
+  // Over
+  height: calc(100vh - 100px);
+  width: calc(100vw - 40px);
+}
+
 .centering {
   align-items: center;
   display: flex;
@@ -66,27 +75,21 @@ export default class MediaViewComponent extends Vue {
     return "";
   }
 
-  public get height(): string {
-    let height = 0;
-    for (const media of this.medias) {
-      if (media.sizes.large.h > height) {
-        height = media.sizes.large.h;
-        const width = media.sizes.large.w;
-        if (width > window.innerWidth * 0.8 && width > height) {
-          const ratio = this.aspectRatio(media);
-          height = height / ratio[0] * ratio[1];
-        }
-      }
-    }
-    if (window.innerHeight * 0.95 - 140 > height) {
-      return `${height}px`;
-    } else {
-      return `${window.innerHeight * 0.95 - 140 - 50}px`;
-    }
-  }
-
   public get index(): number {
     return this.params.index;
+  }
+
+  public sizeFor(): any {
+    return {
+      "height": "90%",
+      "max-height": "90%",
+      "max-width": "90%",
+      "width": "90%",
+    };
+  }
+
+  public justHeight(): string {
+    return `${window.innerHeight - 150}px`;
   }
 
   public styleFor(media: IMediaEntity): any {
@@ -102,6 +105,33 @@ export default class MediaViewComponent extends Vue {
       style["max-width"] = "100%";
     }
     return style;
+  }
+
+  public get videoSource(): string {
+    let url = "";
+    if (this.type === "animated_gif") {
+      return this.medias[0].video_info.variants[0].url;
+    } else if (this.type === "video") {
+      let bitrate = 0;
+      for (const variant of this.medias[0].video_info.variants) {
+        if (variant.bitrate && variant.bitrate > bitrate) {
+          bitrate = variant.bitrate;
+          url = variant.url;
+        }
+      }
+    }
+    return url;
+  }
+
+  public get videoStyle(): any {
+    const base = {
+      "max-height": "100%",
+      "max-width": "100%"
+    };
+    return Object.assign({
+      height: `${this.medias[0].sizes.large.h}px`,
+      width: `${this.medias[0].sizes.large.w}px`
+    }, base);
   }
 
   public onClose(done): void {
@@ -130,22 +160,6 @@ export default class MediaViewComponent extends Vue {
       nonce: uuid()
     } as IMediaDialogParams;
     this.switchMediaDialog(params);
-  }
-
-  private aspectRatio(media: IMediaEntity): number[] {
-    let width = media.sizes.large.w;
-    let height = media.sizes.large.h;
-    let ratio = [width, height];
-    for (let i = Math.min(width, height); i > 1; i--) {
-      if (width % i === 0 && height % i === 0) {
-        width = width / i;
-        height = height / i;
-        ratio[0] = width;
-        ratio[1] = height;
-      }
-    }
-    console.log(ratio);
-    return ratio;
   }
 }
 </script>
