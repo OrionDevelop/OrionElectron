@@ -1,6 +1,9 @@
 <template lang="pug">
   el-menu.sidebar(default-active="1" :collapse="isCollapse")
-    el-submenu(index="1")
+    el-menu-item(index="1")
+      i.el-icon-fa-lg.el-icon-fa-envelope-o
+      span(slot="title") New tweet
+    el-submenu(index="2")
       template(slot="title")
         i.el-icon-fa-lg.el-icon-fa-list
       el-menu-item-group
@@ -11,7 +14,7 @@
     .bottom-wrap
       .bottom
         el-menu-item.fix-for-icon(index="2")
-          img.icon(:src="icon")
+          circle-image(:src="icon" :height="36" :width="36")
           span(slot="title") {{username}}
         el-menu-item(index="3")
           i.el-icon-fa-lg.el-icon-fa-gear

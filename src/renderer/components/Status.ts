@@ -6,11 +6,14 @@ import { Component, Prop } from "vue-property-decorator";
 
 import { IMediaEntity, IStatus, IUser } from "../../common/twitter";
 import { convertToISOFormat } from "../../common/utils";
-import MediaComponent from "./status/Media.vue";
+
+import CircleImageComponent from "./controls/CircleImage.vue";
+import MediaComponent from "./controls/Media.vue";
 
 @Component({
   components: {
-    media: MediaComponent
+    "circle-image": CircleImageComponent,
+    "media": MediaComponent
   }
 })
 export default class StatusComponent extends Vue {

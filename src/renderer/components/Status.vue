@@ -4,7 +4,7 @@
       small Retweeted by {{status.user.name}}
     .container
       .left
-        img.icon(:src="user.profile_image_url_https")
+        circle-image(:src="user.profile_image_url_https" :height="52" :width="52")
       .right
         .header
           .name

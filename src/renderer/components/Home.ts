@@ -6,12 +6,15 @@ import { Authentication } from "../../common/auth";
 import { ITokens } from "../../common/ITokens";
 import { Account } from "../models/Account";
 import { Timeline } from "../models/Timeline";
+
+import ComposeComponent from "./Compose.vue";
 import MediaViewComponent from "./MediaView.vue";
 import Sidearea from "./Sidearea.vue";
 import TimelineComponent from "./Timeline.vue";
 
 @Component({
   components: {
+    "compose": ComposeComponent,
     "media-view": MediaViewComponent,
     "sidearea": Sidearea,
     "timeline": TimelineComponent,

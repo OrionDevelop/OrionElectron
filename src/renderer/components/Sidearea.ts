@@ -5,7 +5,13 @@ import { Getter } from "vuex-class";
 import { Account } from "../models/Account";
 import { Timeline } from "../models/Timeline";
 
-@Component
+import CircleImageComponent from "./controls/CircleImage.vue";
+
+@Component({
+  components: {
+    "circle-image": CircleImageComponent
+  }
+})
 export default class SideareaComponent extends Vue {
 
   @Prop({ default: true })
@@ -33,7 +39,7 @@ export default class SideareaComponent extends Vue {
   }
 
   public indexize(index: number): string {
-    return `1-${index}`;
+    return `2-${index}`;
   }
 
   private hasAccount(): boolean {
