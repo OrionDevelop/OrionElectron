@@ -1,7 +1,8 @@
 <template lang="pug">
   .root.yRnqoA01x6
     .retweet(v-if="isRetweet")
-      small Retweeted by {{status.user.name}}
+      small Retweeted by
+        span(v-html="rtname")
     .container
       .left
         circle-image(:src="user.profile_image_url_https" :height="52" :width="52")

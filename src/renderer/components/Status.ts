@@ -1,11 +1,11 @@
+import * as emojione from "emojione";
 import * as moment from "moment";
-import * as twemoji from "twemoji";
 import * as twitter from "twitter-text";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
 import { IMediaEntity, IStatus, IUser } from "../../common/twitter";
-import { convertToISOFormat } from "../../common/utils";
+import { convertToISOFormat, substr } from "../../common/utils";
 
 import CircleImageComponent from "./controls/CircleImage.vue";
 import MediaComponent from "./controls/Media.vue";
@@ -27,12 +27,12 @@ export default class StatusComponent extends Vue {
     if (status.extended_tweet) {
       const range = status.extended_tweet.display_text_range;
       urlEntities = status.extended_tweet.entities.urls;
-      text = status.extended_tweet.full_text.substring(range[0], range[1]);
+      text = substr(status.extended_tweet.full_text, range[0], range[1]);
     } else {
       text = status.full_text || status.text;
       urlEntities = status.entities.urls;
       if (status.display_text_range) {
-        text = text.substring(status.display_text_range[0], status.display_text_range[1]);
+        text = substr(text, status.display_text_range[0], status.display_text_range[1]);
       }
     }
     if (this.medias.length > 0) {
@@ -40,7 +40,7 @@ export default class StatusComponent extends Vue {
         text = text.replace(media.url, "");
       });
     }
-    return twemoji.parse(twitter.autoLink(`${text}`, { urlEntities, targetBlank: true, })).replace("\\n", "<br />");
+    return emojione.toImage(twitter.autoLink(`${text}`, { urlEntities, targetBlank: true, })).replace("\\n", "<br />");
   }
 
   public get permalink(): string {
@@ -56,7 +56,11 @@ export default class StatusComponent extends Vue {
   }
 
   public get name(): string {
-    return twemoji.parse(this.user.name);
+    return emojione.toImage(this.user.name);
+  }
+
+  public get rtname(): string {
+    return emojione.toImage(this.status.user.name);
   }
 
   public get isRetweet(): boolean {

@@ -1,5 +1,6 @@
 import path from "path";
 
+// Convert relative path to absolute path.
 export function abspath(p: string): string {
   if (p.startsWith("~")) {
     p = path.join(process.env.HOME || process.env.USERPROFILE || "", p.substring(1));
@@ -7,6 +8,7 @@ export function abspath(p: string): string {
   return p;
 }
 
+// Generate UUID.
 // http://qiita.com/psn/items/d7ac5bdb5b5633bae165
 export function uuid(): string {
   const chars = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".split("");
@@ -33,4 +35,10 @@ export function convertToISOFormat(date: string): string {
     return `${parts[5]}-${("0" + (month.indexOf(parts[1]) + 1)).slice(-2)}-${parts[2]}T${parts[3]}${parts[4]}`;
   }
   return "";
+}
+
+// String.prototype.substr (Emoji)
+export function substr(str: string, indexStart: number, indexEnd: number | null = null): string {
+  const array = str.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[^\uD800-\uDFFF]/g) || [];
+  return array.slice(indexStart, indexEnd ? indexEnd : undefined).join("");
 }
