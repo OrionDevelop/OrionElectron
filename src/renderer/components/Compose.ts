@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { Component, Prop, Provide } from "vue-property-decorator";
+import { Component, Prop, Provide, Watch } from "vue-property-decorator";
 import { Action, State } from "vuex-class";
 
 import { Account } from "../models/Account";
@@ -14,15 +14,21 @@ import CircleImageComponent from "./controls/CircleImage.vue";
 })
 export default class ComposeComponent extends Vue {
   public isVisible: boolean = true;
+  private handled: boolean = false;
 
   @Prop()
   private accounts: Account[];
 
+  // el-checkbox-group, el-checkbox-button is not working.
+  // This variable is `dust`, do not call in other functions, getters, properties and component.
   @Provide()
-  private selected: string[] = this.accounts.length > 0 ? [this.accounts[0].uuid] : [];
+  private dust: string[] = [];
 
   @Provide()
   private text: string = "";
+
+  @Provide()
+  private selectedAccounts: Account[] = [];
 
   @Action("sendNewStatus")
   private sendNewStatus: (params: IStatusUpdateParams) => void;
@@ -36,25 +42,30 @@ export default class ComposeComponent extends Vue {
     };
   }
 
-  public get selectables(): string[] {
-    return this.accounts.map((w) => w.uuid);
-  }
-
-  public get selectedAccounts(): Account[] {
-    const accounts: Account[] = [];
-    for (const uuid of this.selected) {
-      accounts.push(this.accounts.filter((w) => w.uuid === uuid)[0]);
-    }
-    return accounts.filter((w) => w !== undefined);
-  }
-
   public iconFor(uuid: string): string {
     return this.accounts.filter((w) => w.uuid === uuid)[0].user.profile_image_url_https;
   }
 
+  @Watch("accounts")
+  public onAccountsChanged(newValue: Account[], oldValue: Account[]): void {
+    if (this.handled || newValue.length === 0) {
+      return;
+    }
+    this.selectedAccounts.push(newValue[0]);
+    this.handled = true;
+  }
+
+  public onChange(event, uuid): void {
+    if (event.target.checked) {
+      this.selectedAccounts.push(this.accounts.filter((w) => w.uuid === uuid)[0]);
+    } else {
+      this.selectedAccounts = this.selectedAccounts.filter((w) => w.uuid !== uuid);
+    }
+  }
+
   public onSubmit(): void {
     const text = this.text;
-    for (const account of this.selectedAccounts) {
+    for (const account of this.selectedAccounts.filter((w) => w !== undefined)) {
       this.sendNewStatus({ status: text, account });
     }
     this.text = "";
