@@ -13,7 +13,7 @@
               circle-image(:src="account.user.profile_image_url_https" :height="48" :width="48")
         .section
           p Tweet
-          el-input.dff4BcE1A7(type="textarea" v-model="text" :rows="7" placeholder="What's happening?")
+          el-input.dff4BcE1A7(type="textarea" v-model="text" :rows="7" v-shortkey="['ctrl', 'enter']" @shortkey.native="onSubmit()" placeholder="What's happening?")
           .right.send-button
             el-button(type="primary" :disabled="text.length <= 0" @click="onSubmit") Send
 </template>
