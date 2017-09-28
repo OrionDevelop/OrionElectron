@@ -55,6 +55,9 @@ export class TwitterClient {
     stream.on("tweet", (tweet) => {
       callback("tweet", tweet);
     });
+    stream.on("user_event", (event) => {
+      callback("user_event", event);
+    });
   }
 
   private async handle(response: { data: any, resp: any }): Promise<any> {

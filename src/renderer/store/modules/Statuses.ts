@@ -1,4 +1,5 @@
 import { IStatus } from "../../../common/twitter";
+import { IUserEvent } from "../../../common/twitter.stream";
 import { Account } from "../../models/Account";
 import { credentials } from "../../models/Credentials";
 
@@ -6,6 +7,7 @@ interface IState {
   blocks: string[];
   friends: string[];
   mutes: string[];
+  notifications: IUserEvent[];
   statuses: IStatus[];
   subscribers: any[];
 }
@@ -50,6 +52,7 @@ const state: IState = {
   blocks: [],
   friends: [],
   mutes: [],
+  notifications: [],
   statuses: [],
   subscribers: []
 };
@@ -90,6 +93,9 @@ const mutations = {
   ADD_MUTES(w: IState, ids: string[]) {
     const filtered = ids.filter((v) => !w.mutes.includes(v));
     w.mutes.push(...filtered);
+  },
+  ADD_NOTIFICATION(w: IState, notification: IUserEvent) {
+    w.notifications.push(notification);
   },
   ADD_STATUS(w: IState, status: IStatus) {
     if (w.statuses.filter((v) => exists(w.statuses, status)).length > 0) {
@@ -142,6 +148,17 @@ const actions = {
 
           case "tweet":
             commit("ADD_STATUS", data);
+            break;
+
+          case "user_event":
+            switch ((data as IUserEvent).event) {
+              case "favorite":
+              case "follow":
+              case "quoted_tweet":
+              case "retweeted_retweet":
+              case "favorited_retweet":
+                commit("ADD_NOTIFICATION", data);
+            }
             break;
         }
       });
