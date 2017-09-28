@@ -42,6 +42,10 @@ export default class ComposeComponent extends Vue {
     };
   }
 
+  public get canPost(): boolean {
+    return this.text.length > 0 && this.selectedAccounts.length > 0;
+  }
+
   public iconFor(uuid: string): string {
     return this.accounts.filter((w) => w.uuid === uuid)[0].user.profile_image_url_https;
   }
@@ -64,6 +68,9 @@ export default class ComposeComponent extends Vue {
   }
 
   public onSubmit(): void {
+    if (!this.canPost) {
+      return;
+    }
     const text = this.text;
     for (const account of this.selectedAccounts.filter((w) => w !== undefined)) {
       this.sendNewStatus({ status: text, account });

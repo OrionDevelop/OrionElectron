@@ -15,7 +15,7 @@
           p Tweet
           el-input.dff4BcE1A7(type="textarea" v-model="text" :rows="7" v-shortkey="['ctrl', 'enter']" @shortkey.native="onSubmit()" placeholder="What's happening?")
           .right.send-button
-            el-button(type="primary" :disabled="text.length <= 0 || selectedAccounts.length <= 0" @click="onSubmit") Send
+            el-button(type="primary" :disabled="!canPost" @click="onSubmit") Send
 </template>
 <style lang="scss" src="./Compose.scss" scoped></style>
 <style lang="scss" src="./Compose.global.scss"></style>
