@@ -20,3 +20,26 @@ i {
   padding-right: 5px;
   font-size: 80%;
 }
+
+.section {
+  margin: 10px 0 20px;
+
+  p {
+    margin: 5.25px 0;
+  }
+}
+
+.compose {
+  input,
+  textarea {
+    font-family: inherit !important;
+  }
+}
+
+.send-button {
+  margin-top: 5px;
+}
+
+.right {
+  text-align: right;
+}

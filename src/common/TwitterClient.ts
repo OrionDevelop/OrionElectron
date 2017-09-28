@@ -42,6 +42,10 @@ export class TwitterClient {
     return this.handle(await this.twitter.get("mutes/users/ids", { cursor, stringify_ids: true }));
   }
 
+  public async updateStatus(status: string): Promise<void> {
+    this.handle(await this.twitter.post("statuses/update", { status }));
+  }
+
   // STREAMING
   public userStream(callback: (event: string, data: any) => void): void {
     const stream = this.twitter.stream("user", { stringify_friend_ids: true, tweet_mode: "extended" });

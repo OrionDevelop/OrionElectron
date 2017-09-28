@@ -71,6 +71,7 @@
     "vue-electron": "^1.0.6",
     "vue-property-decorator": "^5.3.0",
     "vue-router": "^2.5.3",
+    "vue-shortkey": "^3.0.2",
     "vuex": "^2.3.1",
     "vuex-class": "^0.2.0"
   },

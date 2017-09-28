@@ -1,5 +1,7 @@
 // store for UI actions.
-import { IMediaDialogParams } from "../../models/parameters";
+import { Account } from "../../models/Account";
+import { credentials } from "../../models/Credentials";
+import { IMediaDialogParams, IStatusUpdateParams } from "../../models/parameters";
 
 interface IState {
   mediaDialog: IMediaDialogParams;
@@ -23,6 +25,12 @@ const mutations = {
 const actions = {
   switchMediaDialog({ commit }, params: IMediaDialogParams) {
     commit("SWITCH_MEDIA_DIALOG", params);
+  },
+  sendNewStatus({ commit }, params: IStatusUpdateParams) {
+    (async () => {
+      const client = credentials.findOrCreateClient(params.account);
+      await client.updateStatus(params.status);
+    })();
   }
 };
 

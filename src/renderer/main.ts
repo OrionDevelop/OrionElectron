@@ -6,6 +6,7 @@ import ElementUI from "element-ui";
 import locale from "element-ui/lib/locale/lang/ja";
 import * as moment from "moment";
 import Vue from "vue";
+import VueShortkey from "vue-shortkey";
 
 import App from "./App.vue";
 import router from "./router";
@@ -42,6 +43,7 @@ if (!process.env.IS_WEB) {
   Vue.use(require("vue-electron"));
 }
 
+Vue.use(VueShortkey);
 Vue.use(ElementUI, { locale });
 // Vue.http = Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
