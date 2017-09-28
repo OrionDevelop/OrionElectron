@@ -19,7 +19,7 @@ export default class ComposeComponent extends Vue {
   private accounts: Account[];
 
   @Provide()
-  private selected: Account[] = [this.accounts[0]];
+  private selected: string[] = this.accounts.length > 0 ? [this.accounts[0].uuid] : [];
 
   @Provide()
   private text: string = "";
@@ -36,9 +36,25 @@ export default class ComposeComponent extends Vue {
     };
   }
 
+  public get selectables(): string[] {
+    return this.accounts.map((w) => w.uuid);
+  }
+
+  public get selectedAccounts(): Account[] {
+    const accounts: Account[] = [];
+    for (const uuid of this.selected) {
+      accounts.push(this.accounts.filter((w) => w.uuid === uuid)[0]);
+    }
+    return accounts.filter((w) => w !== undefined);
+  }
+
+  public iconFor(uuid: string): string {
+    return this.accounts.filter((w) => w.uuid === uuid)[0].user.profile_image_url_https;
+  }
+
   public onSubmit(): void {
     const text = this.text;
-    for (const account of this.selected.filter((w) => w !== undefined)) {
+    for (const account of this.selectedAccounts) {
       this.sendNewStatus({ status: text, account });
     }
     this.text = "";

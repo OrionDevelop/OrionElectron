@@ -8,14 +8,14 @@
       .content
         .section
           p Account
-          el-checkbox-group(size="small" v-model="selected" :min="1")
-            el-checkbox-button(v-for="account in accounts" :key="account.uuid")
-              circle-image(:src="account.user.profile_image_url_https" :height="48" :width="48")
+          el-checkbox-group(size="small" v-model="selected")
+            el-checkbox-button(v-for="uuid in selectables" :key="uuid")
+              circle-image(:src="iconFor(uuid)" :height="48" :width="48")
         .section
           p Tweet
           el-input.dff4BcE1A7(type="textarea" v-model="text" :rows="7" v-shortkey="['ctrl', 'enter']" @shortkey.native="onSubmit()" placeholder="What's happening?")
           .right.send-button
-            el-button(type="primary" :disabled="text.length <= 0" @click="onSubmit") Send
+            el-button(type="primary" :disabled="text.length <= 0 || selected.length <= 0" @click="onSubmit") Send
 </template>
 <style lang="scss" src="./Compose.scss" scoped></style>
 <style lang="scss" src="./Compose.global.scss"></style>
