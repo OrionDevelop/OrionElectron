@@ -22,22 +22,29 @@ $fa-font-path: "~font-awesome/fonts";
 
 // Font Awesome
 [class^="el-icon-fa"],
-[class*="el-icon-fa"] {
+[class*=" el-icon-fa"] {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome !important;
   font-size: inherit;
   text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
 }
 
-// stylelint-disable-next-line
-@for $i from 16 through 30 {
-  .el-icon-fa-#{$i} {
-    font: normal normal normal ($i * 1px)/1 FontAwesome !important;
-  }
+.el-icon-fa-stack {
+  position: relative;
+  display: inline-block !important;
+  width: 2em;
+  height: 2em;
+  line-height: 2em !important;
+  vertical-align: middle;
 }
 
-.el-icon-fa-lg {
-  font: normal normal normal 16px/1 FontAwesome !important;
+.el-icon-fa-stack-1x {
+  line-height: inherit !important;
+}
+
+.el-icon-fa-stack-2x {
+  font-size: 2em !important;
 }
 
 .fix-for-icon {

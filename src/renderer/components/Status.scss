@@ -25,6 +25,34 @@
 
   .left {
     width: 64px;
+    position: relative;
+
+    .box {
+      display: inline;
+      height: 52px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 52px;
+    }
+
+    .verified {
+      bottom: -2.5px;
+      right: -2.5px;
+      position: absolute;
+
+      .el-icon-fa-stack {
+        font-size: 12px !important;
+      }
+
+      .layer1 {
+        color: skyblue;
+      }
+
+      .layer2 {
+        color: white;
+      }
+    }
   }
 
   .right {

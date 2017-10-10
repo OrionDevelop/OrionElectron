@@ -58,6 +58,10 @@ export default class StatusComponent extends Vue {
     return emojione.toImage(this.user.name);
   }
 
+  public get icon(): string {
+    return this.user.profile_image_url_https.replace("normal", "bigger");
+  }
+
   public get rtname(): string {
     return emojione.toImage(this.status.user.name);
   }

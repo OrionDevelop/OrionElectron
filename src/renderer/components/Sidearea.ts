@@ -26,7 +26,7 @@ export default class SideareaComponent extends Vue {
   // Computed
   get icon(): string {
     if (this.hasAccount()) {
-      return this.account.user.profile_image_url_https.replace("normal", "bigger");
+      return this.account.user.profile_image_url_https;
     }
     return "https://placehold.jp/36x36.png";
   }

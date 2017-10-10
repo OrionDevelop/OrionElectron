@@ -5,7 +5,12 @@
         span(v-html="rtname")
     .container
       .left
-        circle-image(:src="user.profile_image_url_https" :height="52" :width="52")
+        circle-image.box(:src="icon" :height="52" :width="52")
+        .box(v-if="user.verified")
+          .verified
+            .el-icon-fa-stack
+              .el-icon-fa.el-icon-fa-certificate.el-icon-fa-stack-2x.layer1
+              .el-icon-fa.el-icon-fa-check.el-icon-fa-stack-1x.el-icon-fa-inverse.layer2
       .right
         .header
           .name
