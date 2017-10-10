@@ -42,7 +42,7 @@ export default class MediaViewComponent extends Vue {
     };
   }
 
-  public get justHeight(): string {
+  public justHeight(): string {
     return `${window.innerHeight - 150}px`;
   }
 
