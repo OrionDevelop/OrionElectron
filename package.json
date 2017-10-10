@@ -61,7 +61,6 @@
     "emojione": "^3.1.2",
     "font-awesome": "^4.7.0",
     "mkdirp": "^0.5.1",
-    "moment": "^2.18.1",
     "oauth": "^0.9.15",
     "tslib": "^1.7.1",
     "twit": "^2.2.9",
@@ -72,6 +71,7 @@
     "vue-property-decorator": "^5.3.0",
     "vue-router": "^2.5.3",
     "vue-shortkey": "^3.0.2",
+    "vue-timeago": "^3.3.6",
     "vuex": "^2.3.1",
     "vuex-class": "^0.2.0"
   },

@@ -14,7 +14,8 @@
           i.lock.el-icon-fa-lock(v-if="user.protected")
           .time
             a(:href="permalink" target="_blank")
-              small {{time}}
+              small
+                timeago(:since="time" :auto-update="10" :max-time="86400 * 30")
         div.mention(v-if="hasMentions")
           small Replying to 
             a(href="#" v-for="mention in targetStatus().entities.user_mentions") @{{mention.screen_name}}

@@ -42,3 +42,11 @@ export function substr(str: string, indexStart: number, indexEnd: number | null 
   const array = str.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[^\uD800-\uDFFF]/g) || [];
   return array.slice(indexStart, indexEnd ? indexEnd : undefined).join("");
 }
+
+export function dup(obj: any, times: number): any[] {
+  const array: any[] = [];
+  for (let i = 0; i < times; i++) {
+    array.push(obj);
+  }
+  return obj;
+}

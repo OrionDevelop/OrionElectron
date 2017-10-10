@@ -1,5 +1,4 @@
 import * as emojione from "emojione";
-import * as moment from "moment";
 import * as twitter from "twitter-text";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
@@ -13,7 +12,7 @@ import MediaComponent from "./controls/Media.vue";
 @Component({
   components: {
     "circle-image": CircleImageComponent,
-    "media": MediaComponent
+    "media": MediaComponent,
   }
 })
 export default class StatusComponent extends Vue {
@@ -48,7 +47,7 @@ export default class StatusComponent extends Vue {
   }
 
   public get time(): string {
-    return moment(convertToISOFormat(this.targetStatus().created_at)).fromNow(true);
+    return convertToISOFormat(this.targetStatus().created_at);
   }
 
   public get user(): IUser {

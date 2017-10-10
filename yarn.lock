@@ -5346,10 +5346,6 @@ mocha@^3.0.2:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-moment@^2.18.1:
-  version "2.18.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
-
 ms@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
@@ -8058,6 +8054,10 @@ vue-template-compiler@^2.4.2:
 vue-template-es2015-compiler@^1.2.2:
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.5.3.tgz#22787de4e37ebd9339b74223bc467d1adee30545"
+
+vue-timeago@^3.3.6:
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/vue-timeago/-/vue-timeago-3.3.6.tgz#c849042ddaf159f24c80ac317211a0d4b427e5fc"
 
 vue@^2.1.0, vue@^2.3.3:
   version "2.4.4"
