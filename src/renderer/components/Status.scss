@@ -5,12 +5,27 @@
 }
 
 .retweet {
-  padding-left: 64px;
-  color: gray;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  word-break: break-all;
+  display: flex;
+
+  .left {
+    text-align: right;
+    width: 64px;
+
+    span {
+      color: green;
+      font-size: 115% !important;
+      padding-right: 15px;
+    }
+  }
+
+  .right {
+    color: gray;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: calc(100% - 64px);
+    white-space: nowrap;
+    word-break: break-all;
+  }
 
   small {
     font-size: 70%;

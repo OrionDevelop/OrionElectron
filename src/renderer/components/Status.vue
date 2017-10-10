@@ -1,8 +1,12 @@
 <template lang="pug">
   .root.yRnqoA01x6
     .retweet(v-if="isRetweet")
-      small Retweeted by
-        span(v-html="rtname")
+      .left
+        small
+          span.el-icon-fa.el-icon-fa-retweet
+      .right
+        small Retweeted by 
+          span(v-html="rtname")
     .container
       .left
         circle-image.box(:src="icon" :height="52" :width="52")
