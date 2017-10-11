@@ -123,8 +123,12 @@ const mutations = {
     });
     w.statuses.unshift(...filtered);
   },
-  DELETE_STATUS(w: IState, status: IStatus) {
-    w.statuses = w.statuses.filter((v) => v.id_str !== status.id_str);
+  REMOVE_STATUS(w: IState, status: IStatus) {
+    const index = w.statuses.findIndex((v) => v.id_str === status.id_str);
+    console.log(index);
+    if (index > 0) {
+      w.statuses.splice(index, 1);
+    }
   }
 };
 
@@ -148,6 +152,10 @@ const actions = {
 
           case "tweet":
             commit("ADD_STATUS", data);
+            break;
+
+          case "delete":
+            commit("REMOVE_STATUS", data.delete.status);
             break;
 
           case "user_event":

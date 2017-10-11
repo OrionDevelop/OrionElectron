@@ -55,6 +55,9 @@ export class TwitterClient {
     stream.on("tweet", (tweet) => {
       callback("tweet", tweet);
     });
+    stream.on("delete", (event) => {
+      callback("delete", event);
+    });
     stream.on("user_event", (event) => {
       callback("user_event", event);
     });
