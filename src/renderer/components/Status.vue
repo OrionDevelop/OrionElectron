@@ -30,6 +30,8 @@
             a(href="#" v-for="mention in targetStatus().entities.user_mentions") @{{mention.screen_name}}
         div.text(v-html="text")
         media(:medias="medias")
+        .toolbox
+          //
 </template>
 
 <style lang="scss" src="./Status.scss" scoped></style>

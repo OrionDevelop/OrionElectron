@@ -30,6 +30,16 @@ $fa-font-path: "~font-awesome/fonts";
   -webkit-font-smoothing: antialiased;
 }
 
+.el-icon-fa-lg {
+  font-size: 1.33333em !important;
+  line-height: 0.75em !important;
+  vertical-align: -15% !important;
+}
+
+.el-icon-fa-2x {
+  font-size: 2em !important;
+}
+
 .el-icon-fa-stack {
   position: relative;
   display: inline-block !important;
