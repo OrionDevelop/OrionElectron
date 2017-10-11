@@ -7,6 +7,6 @@ export class HomeFilter implements IFilter {
     if (status.user.following) {
       return true;
     }
-    return params.friends.includes(status.user.id || -1);
+    return params.friends.includes(status.user.id_str || "-1");
   }
 }

@@ -50,7 +50,7 @@ export class TwitterClient {
   public userStream(callback: (event: string, data: any) => void): void {
     const stream = this.twitter.stream("user", { stringify_friend_ids: true, tweet_mode: "extended" });
     stream.on("friends", (friends) => {
-      callback("friends", friends.friends_str.map((w) => parseInt(w, 10)));
+      callback("friends", friends.friends_str);
     });
     stream.on("tweet", (tweet) => {
       callback("tweet", tweet);

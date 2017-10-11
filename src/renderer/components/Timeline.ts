@@ -4,6 +4,7 @@ import { Action, Getter, State } from "vuex-class";
 
 import { IStatus } from "../../common/twitter";
 import { Account } from "../models/Account";
+import { IStatuses } from "../models/IStatuses";
 import { Timeline } from "../models/Timeline";
 import StatusComponent from "./Status.vue";
 
@@ -19,18 +20,18 @@ export default class TimelineComponent extends Vue {
   @Action
   private subscribeTimeline: (account: Account) => void;
 
-  @Getter("statuses")
-  private statuses: IStatus[];
+  @State((state: any) => state.System.separated)
+  private separated: IStatuses[];
 
-  @State((state: any) => state.Statuses.friends)
-  private friends: number[];
+  @State((state: any) => state.System.friends)
+  private friends: string[];
 
   public get icon(): string {
     return `el-icon-fa-${this.timeline.icon}`;
   }
 
-  public get filtered(): IStatus[] {
-    return this.statuses.filter((w) => this.timeline.filter(w, this.friends));
+  public get statuses(): IStatus[] {
+    return this.separated[this.separated.findIndex((w) => w.uuid === this.timeline.uuid)].statuses;
   }
 
   public get bodyStyle(): any {

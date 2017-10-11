@@ -5,6 +5,6 @@ export interface IFilter {
 }
 
 export interface IFilterParams {
-  friends: number[];
+  friends: string[];
   me: IUser;
 }

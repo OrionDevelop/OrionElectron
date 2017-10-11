@@ -46,7 +46,7 @@ export class Timeline {
   }
 
   // tslint:disable-next-line:ban-types
-  public filter(status: IStatus, friends: number[]): boolean {
+  public filter(status: IStatus, friends: string[]): boolean {
     const filters = {
       home: new HomeFilter(),
       mentions: new MentionsFilter()
