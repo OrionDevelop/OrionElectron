@@ -3,7 +3,7 @@ import * as twitter from "twitter-text";
 import Vue from "vue";
 import { Component, Prop } from "vue-property-decorator";
 
-import { IMediaEntity, IStatus, IUser } from "../../common/twitter";
+import { IMediaEntity, IStatus, IUser, IUserMentionEntity } from "../../common/twitter";
 import { convertToISOFormat, substr } from "../../common/utils";
 
 import CircleImageComponent from "./controls/CircleImage.vue";
@@ -88,6 +88,12 @@ export default class StatusComponent extends Vue {
       return false;
     }
     return this.targetStatus().entities.user_mentions.length > 0;
+  }
+
+  public get mentions(): IUserMentionEntity[] {
+    return this.targetStatus().entities.user_mentions.filter((w, i, self) => {
+      return self.findIndex((v) => v.id === w.id) === i;
+    });
   }
 
   private targetStatus(): IStatus {

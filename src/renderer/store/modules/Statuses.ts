@@ -125,7 +125,6 @@ const mutations = {
   },
   REMOVE_STATUS(w: IState, status: IStatus) {
     const index = w.statuses.findIndex((v) => v.id_str === status.id_str);
-    console.log(index);
     if (index > 0) {
       w.statuses.splice(index, 1);
     }

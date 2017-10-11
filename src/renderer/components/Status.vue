@@ -27,7 +27,7 @@
                 timeago(:since="time" :auto-update="10" :max-time="86400 * 30")
         div.mention(v-if="hasMentions")
           small Replying to 
-            a(href="#" v-for="mention in targetStatus().entities.user_mentions") @{{mention.screen_name}}
+            a(href="#" v-for="mention in mentions") @{{mention.screen_name}}
         div.text(v-html="text")
         media(:medias="medias")
         .toolbox
