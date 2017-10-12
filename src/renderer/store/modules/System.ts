@@ -134,8 +134,8 @@ const mutations = {
           continue;
         }
         statuses.unshift(status);
-        if (statuses.length >= 300) {
-          for (let i = 300; i < statuses.length; i++) {
+        if (statuses.length >= 200) {
+          for (let i = 200; i < statuses.length; i++) {
             statuses.pop();
           }
         }
@@ -152,8 +152,8 @@ const mutations = {
             continue;
           }
           innerStatuses.unshift(status);
-          if (innerStatuses.length >= 300) {
-            for (let i = 300; i < innerStatuses.length; i++) {
+          if (innerStatuses.length >= 200) {
+            for (let i = 200; i < innerStatuses.length; i++) {
               innerStatuses.pop();
             }
           }
