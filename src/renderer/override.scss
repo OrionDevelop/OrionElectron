@@ -2,6 +2,42 @@
   background-color: rgb(44, 45, 46);
 }
 
+.el-menu-item {
+  color: #e1e8ed;
+
+  &:hover {
+    background-color: rgba(54, 55, 56, 1);
+  }
+}
+
+.el-menu-item-group__title {
+  color: #e1e8ed;
+}
+
+.el-submenu {
+  color: #e1e8ed !important;
+
+  .el-menu {
+    background-color: rgb(44, 45, 46);
+  }
+
+  .el-menu-item {
+    background-color: rgb(44, 45, 46);
+
+    &:hover {
+      background-color: rgba(54, 55, 56, 1);
+    }
+  }
+}
+
+.el-submenu__title {
+  color: #e1e8ed;
+
+  &:hover {
+    background-color: rgba(54, 55, 56, 1);
+  }
+}
+
 .el-card {
   border: 1px solid transparent;
   background-color: #222426;
