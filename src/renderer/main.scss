@@ -8,8 +8,8 @@ body,
 }
 
 body {
-  background-color: #f9f9f9;
-  color: #333;
+  background-color: #333;
+  color: #e1e8ed;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, /*"游ゴシック", YuGothic,*/ "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;
   // font-weight: 500;
   margin: 0;
@@ -71,11 +71,11 @@ $fa-font-path: "~font-awesome/fonts";
 
 ::-webkit-scrollbar-thumb {
   height: 4px;
-  border: 4px solid rgba(0, 0, 0, 0);
+  border: 4px solid rgba(255, 255, 255, 0);
   background-clip: padding-box;
   border-radius: 7px;
-  background-color: rgba(0, 0, 0, 0.15);
-  box-shadow: inset -1px -1px 0 rgba(0, 0, 0, 0.05), inset 1px 1px 0 rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: inset -1px -1px 0 rgba(255, 255, 255, 0.05), inset 1px 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 ::-webkit-scrollbar-button {

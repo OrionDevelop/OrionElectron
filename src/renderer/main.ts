@@ -17,6 +17,7 @@ import "element-ui/lib/theme-default/index.css";
 
 import "./exts";
 import "./main.scss";
+import "./override.scss";
 
 if (!process.env.IS_WEB) {
   // tslint:disable-next-line:no-var-requires
