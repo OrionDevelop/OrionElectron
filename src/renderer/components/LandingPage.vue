@@ -1,25 +1,26 @@
 <template lang="pug">
 #wrapper
-  img#logo(src='~@/assets/logo.png' alt='electron-vue')
-  main
-    .left-side
-      span.title
-        | Welcome to your new project!
-      system-information
-    .right-side
-      .doc
-        .title Getting Started
-        p
-          | electron-vue comes packed with detailed documentation that covers everything from
-          | internal configurations, using the project structure, building your application,
-          | and so much more.
-        button(@click="open('https://simulatedgreg.gitbooks.io/electron-vue/content/')") Read the Docs
-        br
-        br
-      .doc
-        .title.alt Other Documentation
-        button.alt(@click="open('https://electron.atom.io/docs/')") Electron
-        button.alt(@click="open('https://vuejs.org/v2/guide/')") Vue.js
+  .uk-container
+    img#logo(src='~@/assets/logo.png' alt='electron-vue')
+    main
+      .left-side
+        span.title
+          | Welcome to your new project!
+        system-information
+      .right-side
+        .doc
+          .title Getting Started
+          p
+            | electron-vue comes packed with detailed documentation that covers everything from
+            | internal configurations, using the project structure, building your application,
+            | and so much more.
+          button(@click="open('https://simulatedgreg.gitbooks.io/electron-vue/content/')") Read the Docs
+          br
+          br
+        .doc
+          .title.alt Other Documentation
+          button.alt(@click="open('https://electron.atom.io/docs/')") Electron
+          button.alt(@click="open('https://vuejs.org/v2/guide/')") Vue.js
 
 </template>
 
