@@ -4,8 +4,8 @@
  *  modify this file, but it can be used to extend your development
  *  environment.
  */
-/* eslint:disable */
-// tslint:disable:no-var-requires no-console
+
+/* eslint-disable */
 
 // Set environment for development
 process.env.NODE_ENV = 'development'
@@ -15,12 +15,10 @@ require('electron-debug')({ showDevTools: true })
 
 // Install `vue-devtools`
 require('electron').app.on('ready', () => {
-  const installExtension = require('electron-devtools-installer')
+  let installExtension = require('electron-devtools-installer')
   installExtension.default(installExtension.VUEJS_DEVTOOLS)
-    .then(() => {
-      // ignored
-    })
-    .catch((err) => {
+    .then(() => {})
+    .catch(err => {
       console.log('Unable to install `vue-devtools`: \n', err)
     })
 })
